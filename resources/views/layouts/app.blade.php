@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Control Estudiantil</title>
+    <title>Instituto Técnico Danlí</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
@@ -38,16 +38,31 @@
                 <ul>
                     <!-- Nuevo item Dashboard -->
                     <li><a href="{{ route('dashboard') }}" class="text-white hover:bg-gray-700 p-2 flex items-center rounded">
-                            <i class="fas fa-tachometer-alt mr-3"></i> {{ __('Dashboard') }}
+                            <i class="fas fa-tachometer-alt mr-3"></i> {{ __('Inicio') }}
                         </a></li>
-                    <!-- Ítem Usuarios con ícono -->
+
+                    <!-- Ítem Grados con ícono -->
+                    <li><a href="{{ route('grados.index') }}" class="text-white hover:bg-gray-700 p-2 flex items-center rounded">
+                            <i class="fas fa-project-diagram mr-3"></i> {{ __('Grados') }}
+                        </a></li>
+
+                    <!-- Ítem Alumnos con ícono -->
                     <li><a href="{{ route('alumnos.index') }}" class="text-white hover:bg-gray-700 p-2 flex items-center rounded">
                             <i class="fas fa-users mr-3"></i> {{ __('Alumnos') }}
                         </a></li>
 
-                    <!-- Ítem Proyectos con ícono -->
-                    <li><a href="{{ route('grados.index') }}" class="text-white hover:bg-gray-700 p-2 flex items-center rounded">
-                            <i class="fas fa-project-diagram mr-3"></i> {{ __('Grados') }}
+                    <!-- Ítem Alumnos con ícono -->
+                    <li><a href="{{ route('matriculas.index') }}" class="text-white hover:bg-gray-700 p-2 flex items-center rounded">
+                            <i class="fas fa-users mr-3"></i> {{ __('Matricula') }}
+                        </a></li>
+
+                    <li><a href="{{ route('asignaturas.index') }}" class="text-white hover:bg-gray-700 p-2 flex items-center rounded">
+                            <i class="fas fa-file-alt mr-3"></i> {{ __('Asignaturas') }}
+                        </a></li>
+
+                    <!-- Ítem Comentarios con ícono -->
+                    <li><a href="{{ route('calificaciones.index') }}" class="text-white hover:bg-gray-700 p-2 flex items-center rounded">
+                            <i class="fas fa-comments mr-3"></i> {{ __('Calificaciones') }}
                         </a></li>
 
                     <li><a href="{{ route('users.index') }}" class="text-white hover:bg-gray-700 p-2 flex items-center rounded">

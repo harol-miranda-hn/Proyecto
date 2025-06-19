@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Orientación Estudiantil</title>
+    <title>Bienvenido - Sistema de Orientación Estudiantil</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -279,6 +279,8 @@
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             transition: transform 0.3s, box-shadow 0.3s;
             position: relative;
+            display: flex;
+            flex-direction: column;
         }
 
         .dark .image-card {
@@ -296,6 +298,10 @@
             background-position: center;
             position: relative;
             overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
         }
 
         /* ANIMACIONES PARA LAS TARJETAS DE IMAGEN */
@@ -408,6 +414,19 @@
 
         .dark .card-description {
             color: var(--gray-300);
+        }
+
+        /* Estilos para las imágenes PNG */
+        .card-icon {
+            max-width: 100%;
+            max-height: 120px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+            transition: transform 0.3s ease;
+        }
+
+        .image-card:hover .card-icon {
+            transform: scale(1.1);
         }
 
         /* Features Section */
@@ -660,7 +679,12 @@
 
         <div class="hero-image-container">
             <div class="image-card">
-                <div class="card-image" style="background-color: #dbeafe;"></div> AGREGA ALGO AQUI, para que no vaya solo el fondo
+                <div class="card-image" style="background-color: #dbeafe;">
+                    <!-- Vector PNG para Asistencia en Tiempo Real -->
+
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='40' r='20' fill='%233763eb'/%3E%3Cpath d='M30,85 Q50,65 70,85' stroke='%233763eb' stroke-width='10' fill='none'/%3E%3C/svg%3E" alt="Estudiante" class="card-icon">
+
+                </div>
                 <div class="card-content">
                     <h3 class="card-title">Asistencia en Tiempo Real</h3>
                     <p class="card-description">Registro preciso de asistencia con tecnología innovadora.</p>
@@ -668,7 +692,11 @@
             </div>
 
             <div class="image-card">
-                <div class="card-image" style="background-color: #d1fae5;"></div> AGREGA ALGO AQUI, para que no vaya solo el fondo
+                <div class="card-image" style="background-color: #d1fae5;">
+                    <!-- Vector PNG para Seguimiento Académico: gráfico de progreso -->
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80'%3E%3Cpath d='M10,60 L30,40 L50,50 L70,30 L90,40' stroke='%2310b981' stroke-width='5' fill='none'/%3E%3Ccircle cx='10' cy='60' r='5' fill='%2310b981'/%3E%3Ccircle cx='30' cy='40' r='5' fill='%2310b981'/%3E%3Ccircle cx='50' cy='50' r='5' fill='%2310b981'/%3E%3Ccircle cx='70' cy='30' r='5' fill='%2310b981'/%3E%3Ccircle cx='90' cy='40' r='5' fill='%2310b981'/%3E%3C/svg%3E" alt="Seguimiento" class="card-icon">
+
+                </div>
                 <div class="card-content">
                     <h3 class="card-title">Seguimiento Académico</h3>
                     <p class="card-description">Monitorea el progreso de cada estudiante de forma individual.</p>
@@ -676,7 +704,10 @@
             </div>
 
             <div class="image-card">
-                <div class="card-image" style="background-color: #ede9fe;"></div> AGREGA ALGO AQUI, para que no vaya solo el fondo
+                <div class="card-image" style="background-color: #ede9fe;">
+                    <!-- Vector PNG para Reportes Automatizados: documento con gráficos -->
+                    <img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 80'%3E%3Crect x='20' y='20' width='60' height='50' rx='5' fill='white' stroke='%238b5cf6' stroke-width='3'/%3E%3Crect x='25' y='30' width='50' height='5' fill='%238b5cf6'/%3E%3Crect x='25' y='40' width='40' height='5' fill='%238b5cf6'/%3E%3Crect x='25' y='50' width='30' height='5' fill='%238b5cf6'/%3E%3C/svg%3E" alt="Reportes" class="card-icon">
+                </div>
                 <div class="card-content">
                     <h3 class="card-title">Reportes Automatizados</h3>
                     <p class="card-description">Genera reportes detallados con solo un clic.</p>
@@ -774,8 +805,6 @@
             <h3>Control Estudiantil</h3>
             <p>Plataforma integral para la gestión de asistencia, seguimiento académico y orientación estudiantil en instituciones educativas.</p>
         </div>
-
-
 
         <div class="footer-section">
             <h3>Contacto</h3>

@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\Asignatura;
-use App\Models\Alumno;
 
 class AsignaturaSeeder extends Seeder
 {
@@ -15,13 +14,10 @@ class AsignaturaSeeder extends Seeder
             'Educación Física', 'Computación', 'Valores', 'Artes Plásticas', 'Música'
         ];
 
-        foreach (Alumno::all() as $alumno) {
-            foreach ($asignaturasBase as $nombre) {
-                Asignatura::create([
-                    'nombre' => $nombre,
-                    'alumno_id' => $alumno->numero_identidad,
-                ]);
-            }
+        foreach ($asignaturasBase as $nombre) {
+            Asignatura::create([
+                'nombre' => $nombre,
+            ]);
         }
     }
 }

@@ -14,11 +14,6 @@ return new class extends Migration
         Schema::create('asignaturas', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->decimal('calificacion', 5, 2)->nullable(); // Permitir recuperación
-
-            $table->string('alumno_id', 13);
-            $table->foreign('alumno_id')->references('numero_identidad')->on('alumnos')->onDelete('cascade');
-
             $table->timestamps();
         });
     }

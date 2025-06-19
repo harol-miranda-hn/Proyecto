@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -13,13 +12,11 @@ class Asignatura extends Model
 
     protected $fillable = [
         'nombre',
-        'calificacion',
-        'alumno_id',
     ];
 
-    public function alumno()
+    public function grados()
     {
-        return $this->belongsTo(Alumno::class, 'alumno_id', 'numero_identidad');
+        return $this->belongsToMany(Grado::class, 'asignatura_grado');
     }
 
     public function calificaciones()

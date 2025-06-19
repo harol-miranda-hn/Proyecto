@@ -11,6 +11,8 @@ use App\Http\Controllers\GradoController;
 use App\Http\Controllers\AlumnoController;
 use App\Http\Controllers\AsignaturaController;
 use App\Http\Controllers\CalificacionController;
+use App\Http\Controllers\AsignaturaGradoController;
+use App\Http\Controllers\MatriculaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -98,6 +100,41 @@ Route::middleware('auth')->group(function () {
     Route::get('/calificaciones/{calificacion}/editar', [CalificacionController::class, 'edit'])->name('calificaciones.edit');
     Route::put('/calificaciones/{calificacion}', [CalificacionController::class, 'update'])->name('calificaciones.update');
     Route::delete('/calificaciones/{id}', [CalificacionController::class, 'destroy'])->name('calificaciones.destroy');
+
+    Route::get('/asignaciones', [AsignaturaGradoController::class, 'index'])->name('asignaciones.index');
+    Route::get('/grados/{grado}/asignaturas', [AsignaturaGradoController::class, 'edit'])->name('grados.asignaturas.edit');
+    Route::put('/grados/{grado}/asignaturas', [AsignaturaGradoController::class, 'update'])->name('grados.asignaturas.update');
+
+    // Mostrar formulario para asignar asignaturas a un grado
+    Route::get('/grados/{grado}/asignaturas', [AsignaturaGradoController::class, 'edit'])->name('grados.asignaturas.edit');
+
+    // Guardar asignaturas asignadas a un grado
+    Route::post('/grados/{grado}/asignaturas', [AsignaturaGradoController::class, 'update'])->name('grados.asignaturas.update');
+
+    Route::resource('matriculas', MatriculaController::class);
+
+
+    // Mostrar formulario para matricular alumnos en un grado
+    Route::get('/matriculas/create', [MatriculaController::class, 'create'])->name('matriculas.create');
+
+    // Guardar la matrícula
+    Route::post('/matriculas', [MatriculaController::class, 'store'])->name('matriculas.store');
+
+    // Listar matrículas existentes
+    Route::get('/matriculas', [MatriculaController::class, 'index'])->name('matriculas.index');
+
+    // Ver detalles de una matrícula
+    Route::get('/matriculas/{matricula}', [MatriculaController::class, 'show'])->name('matriculas.show');
+
+    // Editar una matrícula (por si hay cambio de grado, etc.)
+    Route::get('/matriculas/{matricula}/editar', [MatriculaController::class, 'edit'])->name('matriculas.edit');
+    Route::put('/matriculas/{matricula}', [MatriculaController::class, 'update'])->name('matriculas.update');
+
+    // Eliminar una matrícula
+    Route::delete('/matriculas/{matricula}', [MatriculaController::class, 'destroy'])->name('matriculas.destroy');
+
+    //Ver calificaciones por alumno y grado
+    Route::get('/alumnos/{alumno}/calificaciones/{grado}', [CalificacionController::class, 'verPorAlumnoYGrado'])->name('calificaciones.alumno.grado');
 
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });

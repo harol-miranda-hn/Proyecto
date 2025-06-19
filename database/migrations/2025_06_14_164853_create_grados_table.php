@@ -13,9 +13,11 @@ return new class extends Migration
     {
         Schema::create('grados', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre');
+            $table->string('curso');
+            $table->string('modalidad');
             $table->enum('jornada', ['Matutina', 'Vespertina', 'Nocturna', 'ISEMED']);
             $table->enum('seccion', ['A', 'B', 'C', 'D', 'E', 'F', 'G']);
+            $table->integer('matricula')->default(0);
             $table->timestamps();
         });
     }

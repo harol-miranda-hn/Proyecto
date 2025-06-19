@@ -1,27 +1,20 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Calificacion extends Model
+class AsignaturaGrado extends Model
 {
     use HasFactory;
 
-    protected $table = 'calificaciones';
+    protected $table = 'asignatura_grado';
 
     protected $fillable = [
-        'alumno_id',
         'grado_id',
         'asignatura_id',
-        'tipo',
-        'nota',
     ];
-
-    public function alumno()
-    {
-        return $this->belongsTo(Alumno::class);
-    }
 
     public function grado()
     {
@@ -33,3 +26,4 @@ class Calificacion extends Model
         return $this->belongsTo(Asignatura::class);
     }
 }
+

@@ -10,17 +10,27 @@ class GradoController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Obtenemos todos los grados con sus alumnos
-        $grados = Grado::withCount('alumnos')
-            ->orderBy('nombre')
-            ->orderBy('seccion')
-            ->get()
-            ->groupBy('nombre'); // Agrupamos por nombre de grado
+        $query = Grado::query(); // ya no usamos withCount('alumnos')
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where('curso', 'like', "%{$search}%")
+                ->orWhere('modalidad', 'like', "%{$search}%")
+                ->orWhere('seccion', 'like', "%{$search}%")
+                ->orWhere('jornada', 'like', "%{$search}%");
+        }
+
+        $grados = $query->orderBy('modalidad')
+            ->orderBy('modalidad') // posiblemente un error repetido
+            ->paginate(4)
+            ->appends(['search' => $request->search]);
 
         return view('grados.index', compact('grados'));
     }
+
+
     /**
      * Show the form for creating a new resource.
      */

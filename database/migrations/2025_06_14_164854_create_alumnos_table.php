@@ -20,16 +20,13 @@ return new class extends Migration
             $table->string('encargado_nombre', 100);
             $table->string('encargado_telefono', 8)->unique();
 
-            $table->unsignedBigInteger('grado_id');
-            $table->foreign('grado_id')->references('id')->on('grados')->onDelete('cascade');
-
             $table->boolean('padece_enfermedad')->default(false);
             $table->string('descripcion_enfermedad', 500)->nullable();
 
             $table->boolean('tiene_observaciones')->default(false);
             $table->string('descripcion_observacion', 500)->nullable();
 
-            $table->date('fecha_matricula');
+            $table->string('direccion', 500)->nullable();
             $table->timestamps();
         });
     }

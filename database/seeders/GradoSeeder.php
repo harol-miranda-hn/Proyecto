@@ -9,11 +9,20 @@ class GradoSeeder extends Seeder
 {
     public function run(): void
     {
-        Grado::create(['nombre' => 'Primero', 'jornada' => 'Matutina', 'seccion' => 'A']);
-        Grado::create(['nombre' => 'Primero', 'jornada' => 'Matutina', 'seccion' => 'B']);
-        Grado::create(['nombre' => 'Segundo', 'jornada' => 'Matutina', 'seccion' => 'A']);
-        Grado::create(['nombre' => 'Sexto',   'jornada' => 'Vespertina', 'seccion' => 'A']);
-        Grado::create(['nombre' => 'Sexto',   'jornada' => 'Vespertina', 'seccion' => 'B']);
-        Grado::create(['nombre' => 'Sexto',   'jornada' => 'Nocturna', 'seccion' => 'C']);
+        Grado::create(['curso' => 'Décimo','modalidad' => 'Bachillerato Técnico Profesional en Informática', 'jornada' => 'Matutina', 'seccion' => 'A']);
+        Grado::create(['curso' => 'Undécimo','modalidad' => 'Bachillerato Técnico Profesional en Informática', 'jornada' => 'Matutina', 'seccion' => 'A']);
+        Grado::create(['curso' => 'Duodécimo','modalidad' => 'Bachillerato Técnico Profesional en Informática', 'jornada' => 'Matutina', 'seccion' => 'A']);
+
+        Grado::create(['curso' => 'Décimo','modalidad' => 'Bachillerato Técnico Profesional en Informática', 'jornada' => 'Vespertina', 'seccion' => 'B']);
+        Grado::create(['curso' => 'Undécimo','modalidad' => 'Bachillerato Técnico Profesional en Informática', 'jornada' => 'Vespertina', 'seccion' => 'B']);
+        Grado::create(['curso' => 'Duodécimo','modalidad' => 'Bachillerato Técnico Profesional en Informática', 'jornada' => 'Vespertina', 'seccion' => 'B']);
+
+        Grado::create(['curso' => 'Décimo','modalidad' => 'Bachillerato Técnico Profesional en Informática con orientación a robótica', 'jornada' => 'Matutina', 'seccion' => 'A']);
+        Grado::create(['curso' => 'Undécimo','modalidad' => 'Bachillerato Técnico Profesional en Informática con orientación a robótica', 'jornada' => 'Matutina', 'seccion' => 'A']);
+        Grado::create(['curso' => 'Duodécimo','modalidad' => 'Bachillerato Técnico Profesional en Informática con orientación a robótica', 'jornada' => 'Matutina', 'seccion' => 'A']);
+
+        Grado::create(['curso' => 'Décimo','modalidad' => 'Bachillerato Técnico Profesional en Informática con orientación a robótica', 'jornada' => 'Matutina', 'seccion' => 'A']);
+        Grado::create(['curso' => 'Undécimo','modalidad' => 'Bachillerato Técnico Profesional en Informática con orientación a robótica', 'jornada' => 'Matutina', 'seccion' => 'A']);
+        Grado::create(['curso' => 'Duodécimo','modalidad' => 'Bachillerato Técnico Profesional en Informática con orientación a robótica', 'jornada' => 'Matutina', 'seccion' => 'A']);
     }
 }

@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -17,21 +16,50 @@ class Alumno extends Model
         'telefono',
         'encargado_nombre',
         'encargado_telefono',
-        'grado_id',
         'padece_enfermedad',
         'descripcion_enfermedad',
         'tiene_observaciones',
         'descripcion_observacion',
+        'direccion',
         'fecha_matricula',
     ];
 
-    public function grado()
+    public function matriculas()
     {
-        return $this->belongsTo(Grado::class);
+        return $this->hasMany(Matricula::class);
     }
 
-    public function asignaturas()
+    public function calificaciones()
     {
-        return $this->hasMany(Asignatura::class, 'alumno_id', 'numero_identidad');
+        return $this->hasMany(Calificacion::class);
     }
+
+    public function promedioPorAsignatura($asignaturaId, $gradoId)
+    {
+        $calificaciones = $this->calificaciones()
+            ->where('asignatura_id', $asignaturaId)
+            ->where('grado_id', $gradoId)
+            ->get()
+            ->groupBy('tipo');
+
+        $parciales = collect([
+            optional($calificaciones->get('Parcial 1'))->first()->nota ?? 0,
+            optional($calificaciones->get('Parcial 2'))->first()->nota ?? 0,
+            optional($calificaciones->get('Parcial 3'))->first()->nota ?? 0,
+        ]);
+
+        $recuperacion = optional($calificaciones->get('Recuperación 1'))->first()->nota
+            ?? optional($calificaciones->get('Recuperación 2'))->first()->nota;
+
+        if ($recuperacion) {
+            $min = $parciales->min();
+            $index = $parciales->search($min);
+            if ($recuperacion > $min) {
+                $parciales[$index] = $recuperacion;
+            }
+        }
+
+        return round($parciales->avg(), 2);
+    }
+
 }

@@ -1,4 +1,6 @@
 <x-app-layout>
+    <!-- Elimina esta línea duplicada de Font Awesome -->
+    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/> -->
 
     <div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -18,64 +20,112 @@
                         </div>
                     @endif
 
-                    <!-- Botón Agregar Alumno alineado a la derecha -->
-                    <div class="mb-4 flex justify-end">
-                        <a href="{{ route('alumnos.create') }}" class="inline-flex items-center bg-blue-600 text-white py-2 px-6 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none transition ease-in-out duration-300 transform hover:scale-105">
-                            <i class="mr-2 text-lg"></i> {{ __('Agregar alumno') }}
-                        </a>
+                    <!-- Título y barra de acciones -->
+                    <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
+                        <h2 class="text-2xl font-bold">Alumnos</h2>
+
+                        <!-- Contenedor de acciones -->
+                        <div class="flex flex-wrap items-center gap-2">
+                            <!-- Grupo búsqueda -->
+                            <form method="GET" action="{{ route('alumnos.index') }}" class="flex items-center gap-2">
+                                <input
+                                    type="text"
+                                    name="search"
+                                    value="{{ request('search') }}"
+                                    placeholder="Buscar alumnos"
+                                    class="border border-gray-300 rounded-md px-4 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-blue-600"
+                                />
+                                <button
+                                    type="submit"
+                                    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+                                    title="Buscar"
+                                >
+                                    <i class="fas fa-search"></i>
+                                </button>
+                            </form>
+
+                            <div class="flex items-center gap-2 ml-2">
+                                <!-- Botón Recargar -->
+                                <button
+                                    type="button"
+                                    onclick="window.location.href='{{ route('alumnos.index') }}'"
+                                    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+                                    title="Recargar página"
+                                >
+                                    <i class="fas fa-sync-alt"></i>
+                                </button>
+                            </div>
+
+                            <div class="flex items-center gap-2 ml-2">
+                                <!-- Botón Agregar -->
+                                <a href="{{ route('alumnos.create') }}"
+                                   class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
+                                   title="Agregar alumno"
+                                >
+                                    <i class="fas fa-plus"></i>
+                                </a>
+                            </div>
+                        </div>
                     </div>
+
 
                     <!-- Tabla de Alumnos -->
                     <div class="overflow-x-auto bg-gray-50 shadow-md rounded-lg">
-
-                        <!-- Tabla de Alumnos -->
-                        <div class="overflow-x-auto bg-gray-50 shadow-md rounded-lg">
-                            <table id="users-table" class="min-w-full text-sm text-left text-gray-600">
-                                <thead class="text-xs text-gray-700 uppercase bg-gray-200 border-b">
-                                <tr>
-                                    <th class="px-3 sm:px-6 py-3 text-center whitespace-nowrap">Nombre</th>
-                                    <th class="px-3 sm:px-6 py-3 text-center whitespace-nowrap">Grado</th>
-                                    <th class="px-3 sm:px-6 py-3 text-center whitespace-nowrap">Teléfono</th>
-                                    <th class="px-3 sm:px-6 py-3 text-center whitespace-nowrap">Acciones</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($alumnos as $alumno)
-                                    <tr class="bg-white border-b hover:bg-gray-100 transition-colors duration-300">
-                                        <td class="px-3 sm:px-6 py-4 text-center font-medium text-gray-900 whitespace-nowrap">
-                                            {{ $alumno->nombre_completo }}
-                                        </td>
-                                        <td class="px-3 sm:px-6 py-4 text-center text-gray-700 whitespace-nowrap">
-                                            <span class="inline-block bg-gray-300 text-gray-800 text-xs px-2 py-1 rounded-full">
-                                                {{ $alumno->grado->nombre }} - Sección {{ $alumno->grado->seccion }}
-                                            </span>
-                                        </td>
-                                        <td class="px-3 sm:px-6 py-4 text-center text-gray-700 whitespace-nowrap">
+                        <table id="users-table" class="min-w-full text-sm text-left text-gray-600">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-200 border-b">
+                            <tr>
+                                <th class="px-3 sm:px-6 py-3 text-center whitespace-nowrap">Nombre completo</th>
+                                <th class="px-3 sm:px-6 py-3 text-center whitespace-nowrap">Teléfono</th>
+                                <th class="px-3 sm:px-6 py-3 text-center whitespace-nowrap">Número de Identidad</th>
+                                <th class="px-3 sm:px-6 py-3 text-center whitespace-nowrap">Acciones</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            @forelse($alumnos as $alumno)
+                                <tr class="bg-white border-b hover:bg-gray-100 transition-colors duration-300">
+                                    <td class="px-3 sm:px-6 py-4 text-left font-medium text-gray-900 whitespace-nowrap">
+                                        {{ $alumno->nombre_completo }}
+                                    </td>
+                                    <td class="px-3 sm:px-6 py-4 text-center text-gray-700 whitespace-nowrap">
+                                        <span class="inline-block bg-gray-300 text-gray-800 text-xs px-2 py-1 rounded-full">
                                             {{ substr($alumno->telefono, 0, 4) . ' - ' . substr($alumno->telefono, 4, 4) }}
-                                        </td>
+                                        </span>
+                                    </td>
+                                    <td class="px-3 sm:px-6 py-4 text-center text-gray-700 whitespace-nowrap">
+                                        <span class="inline-block bg-gray-300 text-gray-800 text-xs px-2 py-1 rounded-full">
+                                            {{ substr($alumno->numero_identidad, 0, 4) . ' - ' . substr($alumno->numero_identidad, 4, 4) . ' - ' . substr($alumno->numero_identidad,8,5) }}
 
-                                        <td class="px-3 sm:px-6 py-4 text-center space-x-4 whitespace-nowrap">
-                                            <a href="{{ route('alumnos.show', $alumno->id) }}" class="text-blue-600 hover:text-blue-800">
+                                        </span>
+                                    </td>
+
+                                    <td class="px-3 sm:px-6 py-4 text-center whitespace-nowrap">
+                                        <div class="flex justify-center items-center space-x-4">
+                                            <a href="{{ route('alumnos.show', $alumno->id) }}" class="text-blue-600 hover:text-blue-800" title="Ver">
                                                 <i class="fas fa-eye"></i>
                                             </a>
-                                            <a href="{{ route('alumnos.edit', $alumno->id) }}" class="text-yellow-500 hover:text-yellow-700">
+                                            <a href="{{ route('alumnos.edit', $alumno->id) }}" class="text-yellow-500 hover:text-yellow-700" title="Editar">
                                                 <i class="fas fa-edit"></i>
                                             </a>
-                                            <button class="text-red-600 hover:text-red-800 delete-btn" data-user-id="{{ $alumno->id }}">
+                                            <button class="text-red-600 hover:text-red-800 delete-btn" data-user-id="{{ $alumno->id }}" title="Eliminar">
                                                 <i class="fas fa-trash"></i>
                                             </button>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" class="text-center py-4 text-gray-500">
+                                        No se encontraron alumnos.
+                                    </td>
+                                </tr>
+                            @endforelse
+                            </tbody>
+                        </table>
 
-                            <!-- Paginación -->
-                            <div class="mt-6 mb-4 mr-4 ml-4">
-                                {{ $alumnos->links('pagination::tailwind') }}
-                            </div>
+                        <!-- Paginación -->
+                        <div class="mt-6 mb-4 mr-4 ml-4">
+                            {{ $alumnos->links('pagination::tailwind') }}
                         </div>
-
                     </div>
                 </div>
             </div>

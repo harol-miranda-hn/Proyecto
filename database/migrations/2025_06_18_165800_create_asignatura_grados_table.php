@@ -6,29 +6,30 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
+    /**
+     * Run the migrations.
+     */
     public function up(): void
     {
-        Schema::create('calificaciones', function (Blueprint $table) {
+        Schema::create('asignatura_grado', function (Blueprint $table) {
             $table->id();
-
-            $table->unsignedBigInteger('alumno_id');
             $table->unsignedBigInteger('grado_id');
             $table->unsignedBigInteger('asignatura_id');
-            $table->enum('tipo', ['Parcial 1', 'Parcial 2', 'Parcial 3', 'Recuperación 1', 'Recuperación 2']);
-            $table->decimal('nota', 5, 2);
             $table->timestamps();
 
-            $table->foreign('alumno_id')->references('id')->on('alumnos')->onDelete('cascade');
             $table->foreign('grado_id')->references('id')->on('grados')->onDelete('cascade');
             $table->foreign('asignatura_id')->references('id')->on('asignaturas')->onDelete('cascade');
 
-            $table->unique(['alumno_id', 'grado_id', 'asignatura_id', 'tipo']); // No se repiten notas por tipo
+            $table->unique(['grado_id', 'asignatura_id']); // Evita duplicados
         });
 
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('calificaciones');
+        Schema::dropIfExists('asignatura_grados');
     }
 };

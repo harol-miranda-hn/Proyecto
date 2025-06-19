@@ -47,14 +47,14 @@
                             <tbody>
                             @foreach($users as $user)
                                 <tr class="bg-white border-b hover:bg-gray-100 transition-colors duration-300">
-                                    <td class="px-6 py-4 font-medium text-gray-900 text-center">
+                                    <td class="px-6 py-4 font-medium text-gray-900 text-left">
                                         {{ $user->name }}
                                     </td>
-                                    <td class="px-6 py-4 text-gray-700 text-center">
+                                    <td class="px-6 py-4 text-gray-700 text-left">
                                         {{ $user->email }}
                                     </td>
                                     <td class="px-6 py-4 text-gray-700 text-center">
-                                        {{ $user->role }}
+                                        {{ ucfirst($user->role) }}
                                     </td>
                                     <td class="px-6 py-4 space-x-6 text-sm text-center">
                                         <!-- Botón Ver -->

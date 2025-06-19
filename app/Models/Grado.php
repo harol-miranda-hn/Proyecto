@@ -12,13 +12,25 @@ class Grado extends Model
     protected $table = 'grados';
 
     protected $fillable = [
-        'nombre',
+        'curso',
+        'modalidad',
         'jornada',
         'seccion',
+        'matricula',
     ];
 
-    public function alumnos()
+    public function asignaturas()
     {
-        return $this->hasMany(Alumno::class);
+        return $this->belongsToMany(Asignatura::class, 'asignatura_grado');
+    }
+
+    public function matriculas()
+    {
+        return $this->hasMany(Matricula::class);
+    }
+
+    public function calificaciones()
+    {
+        return $this->hasMany(Calificacion::class);
     }
 }

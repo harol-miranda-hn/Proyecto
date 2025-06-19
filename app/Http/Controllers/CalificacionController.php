@@ -2,28 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Asignatura;
-use App\Models\Alumno;
 use Illuminate\Http\Request;
 
-class AsignaturaController extends Controller
+class CalificacionController extends Controller
 {
-    public function index(Request $request)
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
     {
-        $query = Asignatura::query();
-
-        if ($request->filled('search')) {
-            $search = $request->search;
-            $query->where('nombre', 'like', "%{$search}%");
-        }
-
-        $asignaturas = $query->orderBy('nombre')
-            ->paginate(4)
-            ->appends(['search' => $request->search]);
-
-        return view('asignaturas.index', compact('asignaturas'));
+        //
     }
-
 
     /**
      * Show the form for creating a new resource.
