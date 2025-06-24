@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
 
     <div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -41,13 +41,13 @@
                             <tbody>
                             @foreach($comments as $comment)
                                 <tr class="bg-white border-b hover:bg-gray-100 transition-colors duration-300">
-                                    <td class="px-6 py-4 font-medium text-gray-900 text-center">
+                                    <td class="px-6 py-4 font-medium text-gray-900 text-left">
                                         {{ $comment->user->name }}
                                     </td>
-                                    <td class="px-6 py-4 text-gray-700 text-center">
+                                    <td class="px-6 py-4 text-gray-700 text-left">
                                         {{ $comment->content }}
                                     </td>
-                                    <td class="px-6 py-4 text-gray-700 text-center">
+                                    <td class="px-6 py-4 text-gray-700 text-left">
                                         {{ $comment->project->name }}
                                     </td>
 
@@ -132,4 +132,4 @@
             modal.classList.add('hidden');
         });
     </script>
-</x-app-layout>
+</x-guest-layout>

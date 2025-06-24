@@ -13,16 +13,18 @@ class Alumno extends Model
     protected $fillable = [
         'numero_identidad',
         'nombre_completo',
+        'email',
         'telefono',
+        'fecha_nacimiento',
+        'genero',
+        'direccion',
+        'descripcion_enfermedad',
+        'descripcion_observacion',
         'encargado_nombre',
         'encargado_telefono',
-        'padece_enfermedad',
-        'descripcion_enfermedad',
-        'tiene_observaciones',
-        'descripcion_observacion',
-        'direccion',
-        'fecha_matricula',
+        'parentesco',
     ];
+
 
     public function matriculas()
     {
@@ -63,3 +65,4 @@ class Alumno extends Model
     }
 
 }
+

@@ -21,12 +21,16 @@ class AlumnoSeeder extends Seeder
             Alumno::create([
                 'numero_identidad' => $data['numero_identidad'],
                 'nombre_completo' => $data['nombre_completo'],
+                'email' => 'alumno' . $i . '@instituto.edu',
                 'telefono' => '9988776' . $i,
+                'fecha_nacimiento' => '2005-01-0' . ($i + 1),
+                'genero' => $i % 2 == 0 ? 'M' : 'F',
+                'direccion' => $data['direccion'],
+                'descripcion_enfermedad' => '',
+                'descripcion_observacion' => '',
                 'encargado_nombre' => 'Encargado ' . $i,
                 'encargado_telefono' => '8877665' . $i,
-                'padece_enfermedad' => false,
-                'tiene_observaciones' => false,
-                'fecha_matricula' => now(),
+                'parentesco' => 'madre',
             ]);
         }
     }

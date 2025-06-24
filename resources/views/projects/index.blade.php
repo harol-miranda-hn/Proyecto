@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -81,11 +81,11 @@
                             </tbody>
                         </table>
 
-                        <!-- Paginación -->
-                        <div class="mt-6 mb-4 mr-4 ml-4">
-                            {{ $projects->links('pagination::tailwind') }}
-                        </div>
                     </div>
+                </div>
+                <!-- Paginación -->
+                <div class="mt-6 mb-4 mr-4 ml-4">
+                    {{ $projects->appends(request()->query())->links('pagination::tailwind') }}
                 </div>
             </div>
         </div>
@@ -140,4 +140,4 @@
             modal.classList.add('hidden');
         });
     </script>
-</x-app-layout>
+</x-guest-layout>

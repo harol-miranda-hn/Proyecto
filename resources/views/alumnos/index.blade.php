@@ -1,7 +1,4 @@
-<x-app-layout>
-    <!-- Elimina esta línea duplicada de Font Awesome -->
-    <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/> -->
-
+<x-guest-layout>
     <div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
@@ -121,18 +118,17 @@
                             @endforelse
                             </tbody>
                         </table>
-
-                        <!-- Paginación -->
-                        <div class="mt-6 mb-4 mr-4 ml-4">
-                            {{ $alumnos->links('pagination::tailwind') }}
-                        </div>
+                    </div>
+                    <!-- Paginación -->
+                    <div class="mt-6 mb-4 mr-4 ml-4">
+                        {{ $alumnos->links('pagination::tailwind') }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Modal para Confirmar Eliminación -->
+    <!-- Modal para confirmar eliminación -->
     <div id="confirm-delete-modal" class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 hidden">
         <div class="bg-white p-6 rounded-lg shadow-lg w-96">
             <h3 class="text-lg font-semibold text-gray-700">{{ __('¿Estás seguro de que deseas eliminar este alumno?') }}</h3>
@@ -181,4 +177,4 @@
             modal.classList.add('hidden');
         });
     </script>
-</x-app-layout>
+</x-guest-layout>

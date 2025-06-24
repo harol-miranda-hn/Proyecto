@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
     <div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
@@ -101,7 +101,6 @@
                     <div class="mt-6 mb-4 mr-4 ml-4">
                         {{ $grados->links('pagination::tailwind') }}
                     </div>
-
                 </div>
             </div>
         </div>
@@ -145,4 +144,4 @@
             modal.classList.add('hidden');
         });
     </script>
-</x-app-layout>
+</x-guest-layout>

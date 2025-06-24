@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
     <div class="max-w-4xl mx-auto mt-10 bg-white shadow-lg rounded-lg p-6">
         <h2 class="text-2xl font-bold mb-4">Nueva Matrícula</h2>
 
@@ -59,4 +59,4 @@
             </div>
         </form>
     </div>
-</x-app-layout>
+</x-guest-layout>

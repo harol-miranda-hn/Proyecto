@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
 
     <div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
@@ -136,4 +136,4 @@
             modal.classList.add('hidden');
         });
     </script>
-</x-app-layout>
+</x-guest-layout>

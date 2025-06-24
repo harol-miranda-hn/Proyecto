@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
     <div>
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
@@ -93,12 +93,10 @@
                             </tbody>
                         </table>
                     </div>
-
-                    <!-- Paginación -->
-                    <div class="mt-6 mb-4 mr-4 ml-4">
-                        {{ $matriculas->appends(request()->query())->links('pagination::tailwind') }}
-                    </div>
-
+                </div>
+                <!-- Paginación -->
+                <div class="mt-6 mb-4 mr-4 ml-4">
+                    {{ $matriculas->appends(request()->query())->links('pagination::tailwind') }}
                 </div>
             </div>
         </div>
@@ -145,4 +143,4 @@
             });
         });
     </script>
-</x-app-layout>
+</x-guest-layout>

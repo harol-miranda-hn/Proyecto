@@ -16,17 +16,15 @@ return new class extends Migration
             $table->string('numero_identidad', 13)->unique();
             $table->string('nombre_completo', 100);
             $table->string('telefono', 8)->unique();
-
+            $table->string('direccion', 500)->nullable();
+            $table->string('descripcion_enfermedad', 500)->nullable();
+            $table->string('descripcion_observacion', 500)->nullable();
+            $table->string('email', 100)->nullable();
+            $table->date('fecha_nacimiento');
+            $table->enum('genero', ['M', 'F']);
+            $table->enum('parentesco', ['madre', 'padre', 'tutor', 'otro']);
             $table->string('encargado_nombre', 100);
             $table->string('encargado_telefono', 8)->unique();
-
-            $table->boolean('padece_enfermedad')->default(false);
-            $table->string('descripcion_enfermedad', 500)->nullable();
-
-            $table->boolean('tiene_observaciones')->default(false);
-            $table->string('descripcion_observacion', 500)->nullable();
-
-            $table->string('direccion', 500)->nullable();
             $table->timestamps();
         });
     }

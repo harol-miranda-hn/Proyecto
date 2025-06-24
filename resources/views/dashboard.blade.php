@@ -1,4 +1,4 @@
-<x-app-layout>
+<x-guest-layout>
     <!-- Main Content -->
     <div class="flex-1 p-6 bg-gray-100">
         <div class="bg-white p-4 rounded-lg shadow-lg">
@@ -7,5 +7,5 @@
 
         </div>
     </div>
-</x-app-layout>
+</x-guest-layout>
 

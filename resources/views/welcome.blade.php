@@ -664,7 +664,7 @@
         <div class="logo-icon">
             <i class="fas fa-graduation-cap"></i>
         </div>
-        <div class="logo-text">Control Estudiantil</div>
+        <div class="logo-text">Instituto Técnico Danlí</div>
     </div>
 
     <a href="{{ route('login') }}" class="login-btn">Acceder
@@ -809,16 +809,15 @@
         <div class="footer-section">
             <h3>Contacto</h3>
             <ul class="footer-links">
-                <li><a href="#"><i class="fas fa-map-marker-alt"></i> Danlí, El Paraíso</a></li>
+                <li><a href="#"><i class="fas fa-map-marker-alt"></i> Colonia Nueva Esperanza, Danlí.</a></li>
                 <li><a href="#"><i class="fas fa-phone"></i> (504) #### - ####</a></li>
                 <li><a href="#"><i class="fas fa-envelope"></i> info@controlestudiantil.edu</a></li>
-                <li><a href="#"><i class="fas fa-clock"></i> Lunes-Viernes: 8am-5pm</a></li>
+                <li><a href="#"><i class="fas fa-clock"></i> Lunes - Viernes: 08:00 AM - 05:00 PM</a></li>
             </ul>
         </div>
     </div>
 
-    <div class="copyright">
-        &copy; 2025 Sistema de Control Estudiantil. Todos los derechos reservados.
+    <div class="copyright"><strong>&copy; 2025 Sistema de Control Estudiantil ITD. Todos los derechos reservados.</strong> v.0.0.1
     </div>
 </footer>
 

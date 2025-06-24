@@ -42,14 +42,16 @@ class AlumnoController extends Controller
         $validated = $request->validate([
             'numero_identidad'        => ['required', 'digits:13', 'unique:alumnos,numero_identidad'],
             'nombre_completo'         => ['required', 'string', 'max:100'],
+            'email'                   => ['nullable', 'email', 'max:100'],
             'telefono'                => ['required', 'digits:8', 'unique:alumnos,telefono'],
+            'fecha_nacimiento'        => ['required', 'date'],
+            'genero'                  => ['required', 'in:M,F'],
+            'direccion'               => ['nullable', 'string', 'max:500'],
+            'descripcion_enfermedad'  => ['nullable', 'string', 'max:500'],
+            'descripcion_observacion' => ['nullable', 'string', 'max:500'],
             'encargado_nombre'        => ['required', 'string', 'max:100'],
             'encargado_telefono'      => ['required', 'digits:8', 'unique:alumnos,encargado_telefono'],
-            'padece_enfermedad'       => ['required', 'boolean'],
-            'descripcion_enfermedad'  => ['nullable', 'string', 'max:500'],
-            'tiene_observaciones'     => ['required', 'boolean'],
-            'descripcion_observacion' => ['nullable', 'string', 'max:500'],
-            'direccion'               => ['nullable', 'string', 'max:500'],
+            'parentesco'              => ['required', 'in:madre,padre,tutor,otro'],
         ], [
             'numero_identidad.required' => 'El número de identidad es obligatorio.',
             'numero_identidad.digits' => 'El número de identidad debe tener exactamente 13 dígitos.',
@@ -69,17 +71,21 @@ class AlumnoController extends Controller
             'encargado_telefono.digits' => 'El teléfono del encargado debe tener exactamente 8 dígitos.',
             'encargado_telefono.unique' => 'Este teléfono del encargado ya está registrado.',
 
-            'padece_enfermedad.required' => 'Debe indicar si el alumno padece alguna enfermedad.',
-            'padece_enfermedad.boolean' => 'Valor inválido para padecimiento de enfermedad.',
-
             'descripcion_enfermedad.max' => 'La descripción de la enfermedad no debe exceder 500 caracteres.',
-
-            'tiene_observaciones.required' => 'Debe indicar si existen observaciones.',
-            'tiene_observaciones.boolean' => 'Valor inválido para observaciones.',
-
             'descripcion_observacion.max' => 'La descripción de la observación no debe exceder 500 caracteres.',
 
             'direccion.max' => 'La dirección no debe exceder 500 caracteres.',
+
+            'email.email' => 'Ingrese un correo electrónico válido.',
+            'email.max' => 'El correo electrónico no debe exceder 100 caracteres.',
+
+            'fecha_nacimiento.required' => 'La fecha de nacimiento es obligatoria.',
+
+            'genero.required' => 'El género es obligatorio.',
+            'genero.in' => 'El género debe ser Masculino o Femenino.',
+
+            'parentesco.required' => 'El parentesco es obligatorio.',
+            'parentesco.in' => 'Seleccione una opción válida de parentesco.',
         ]);
 
         Alumno::create($validated);
