@@ -20,7 +20,7 @@ class AlumnoController extends Controller
         }
 
         $alumnos = $query->orderBy('nombre_completo')
-            ->paginate(4)
+            ->paginate(5)
             ->appends(['search' => $request->search]); // Mantener búsqueda en paginación
 
         return view('alumnos.index', compact('alumnos'));

@@ -24,7 +24,7 @@ class GradoController extends Controller
 
         $grados = $query->orderBy('modalidad')
             ->orderBy('modalidad') // posiblemente un error repetido
-            ->paginate(4)
+            ->paginate(5)
             ->appends(['search' => $request->search]);
 
         return view('grados.index', compact('grados'));

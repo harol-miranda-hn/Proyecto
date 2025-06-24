@@ -1,180 +1,160 @@
 <x-guest-layout>
-    <div>
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+    <div class="container py-4">
 
-                    <!-- Mensaje de éxito (Toast) -->
-                    @if(session('status'))
-                        <div id="toast-message" class="fixed top-5 right-25 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
+        <!-- Contenedor completo: Encabezado + Tabla + Paginación -->
+        <div class="bg-light border rounded-3 px-3 py-4 shadow-sm">
+
+            <!-- Toasts -->
+            @if(session('status'))
+                <div class="toast align-items-center text-bg-success border-0 show position-fixed top-0 end-0 m-4" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">
                             {{ session('status') }}
                         </div>
-                    @endif
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+                    </div>
+                </div>
+            @endif
 
-                    @if(session('error'))
-                        <div id="toast-message" class="fixed top-1 right-5 bg-red-700 text-white px-6 py-3 rounded-lg shadow-lg">
+            @if(session('error'))
+                <div class="toast align-items-center text-bg-danger border-0 show position-fixed top-0 end-0 m-4" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">
                             {{ session('error') }}
                         </div>
-                    @endif
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+                    </div>
+                </div>
+            @endif
 
-                    <!-- Título y barra de acciones -->
-                    <div class="flex flex-wrap items-center justify-between gap-4 mb-4">
-                        <h2 class="text-2xl font-bold">Alumnos</h2>
+            <!-- Encabezado y Acciones -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+                <h2 class="h4 text-primary-emphasis fw-bold m-0">Alumnos</h2>
 
-                        <!-- Contenedor de acciones -->
-                        <div class="flex flex-wrap items-center gap-2">
-                            <!-- Grupo búsqueda -->
-                            <form method="GET" action="{{ route('alumnos.index') }}" class="flex items-center gap-2">
-                                <input
-                                    type="text"
-                                    name="search"
-                                    value="{{ request('search') }}"
-                                    placeholder="Buscar alumnos"
-                                    class="border border-gray-300 rounded-md px-4 py-2 w-64 focus:outline-none focus:ring-2 focus:ring-blue-600"
-                                />
-                                <button
-                                    type="submit"
-                                    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
-                                    title="Buscar"
-                                >
-                                    <i class="fas fa-search"></i>
-                                </button>
-                            </form>
-
-                            <div class="flex items-center gap-2 ml-2">
-                                <!-- Botón Recargar -->
-                                <button
-                                    type="button"
-                                    onclick="window.location.href='{{ route('alumnos.index') }}'"
-                                    class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
-                                    title="Recargar página"
-                                >
-                                    <i class="fas fa-sync-alt"></i>
-                                </button>
-                            </div>
-
-                            <div class="flex items-center gap-2 ml-2">
-                                <!-- Botón Agregar -->
-                                <a href="{{ route('alumnos.create') }}"
-                                   class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition"
-                                   title="Agregar alumno"
-                                >
-                                    <i class="fas fa-plus"></i>
-                                </a>
-                            </div>
+                <div class="d-flex flex-wrap align-items-stretch gap-2">
+                    <form method="GET" action="{{ route('alumnos.index') }}" class="d-flex" style="flex: 1 1 auto; min-width: 240px;">
+                        <div class="input-group">
+                            <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="Buscar por nombre o ID">
+                            <button type="submit" class="btn btn-outline-primary" title="Buscar">
+                                <i class="fas fa-search"></i>
+                            </button>
                         </div>
+                    </form>
+
+                    <a href="{{ route('alumnos.index') }}" class="btn btn-outline-secondary d-flex align-items-center justify-content-center" title="Restablecer">
+                        <i class="fas fa-sync-alt"></i>
+                    </a>
+
+                    <a href="{{ route('alumnos.create') }}" class="btn btn-success d-flex align-items-center justify-content-center" title="Agregar nuevo alumno">
+                        <i class="fas fa-user-plus"></i> <span class="d-none d-sm-inline ms-1">Nuevo</span>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Tabla de Alumnos -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle text-center table-sm">
+                    <thead class="table-dark">
+                    <tr>
+                        <th style="width: 50px;">N°</th>
+                        <th>Nombre completo</th>
+                        <th>Teléfono</th>
+                        <th>Número de Identidad</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-light">
+                    @forelse($alumnos as $index => $alumno)
+                        <tr>
+                            <td class="text-start fw-semibold">{{ $alumnos->firstItem() + $index }}</td>
+                            <td class="text-start fw-semibold">{{ $alumno->nombre_completo }}</td>
+                            <td>
+                                <span class="badge bg-info text-dark">
+                                    {{ substr($alumno->telefono, 0, 4) . ' - ' . substr($alumno->telefono, 4, 4) }}
+                                </span>
+                            </td>
+                            <td>
+                                <span class="badge bg-warning text-dark">
+                                    {{ substr($alumno->numero_identidad, 0, 4) . ' - ' . substr($alumno->numero_identidad, 4, 4) . ' - ' . substr($alumno->numero_identidad, 8, 5) }}
+                                </span>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="{{ route('alumnos.show', $alumno->id) }}" class="btn btn-sm btn-outline-primary" title="Ver detalles">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('alumnos.edit', $alumno->id) }}" class="btn btn-sm btn-outline-warning" title="Editar alumno">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-outline-danger delete-btn" data-user-id="{{ $alumno->id }}" title="Eliminar alumno">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No se encontraron alumnos registrados.</td>
+                        </tr>
+                    @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginación -->
+            @if ($alumnos->hasPages())
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 gap-2">
+                    <!-- Texto a la izquierda -->
+                    <div class="text-muted small mb-2 mb-md-0">
+                        Mostrando {{ $alumnos->firstItem() }} a {{ $alumnos->lastItem() }} de {{ $alumnos->total() }} resultados
                     </div>
 
-
-                    <!-- Tabla de Alumnos -->
-                    <div class="overflow-x-auto bg-gray-50 shadow-md rounded-lg">
-                        <table id="users-table" class="min-w-full text-sm text-left text-gray-600">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-200 border-b">
-                            <tr>
-                                <th class="px-3 sm:px-6 py-3 text-center whitespace-nowrap">Nombre completo</th>
-                                <th class="px-3 sm:px-6 py-3 text-center whitespace-nowrap">Teléfono</th>
-                                <th class="px-3 sm:px-6 py-3 text-center whitespace-nowrap">Número de Identidad</th>
-                                <th class="px-3 sm:px-6 py-3 text-center whitespace-nowrap">Acciones</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @forelse($alumnos as $alumno)
-                                <tr class="bg-white border-b hover:bg-gray-100 transition-colors duration-300">
-                                    <td class="px-3 sm:px-6 py-4 text-left font-medium text-gray-900 whitespace-nowrap">
-                                        {{ $alumno->nombre_completo }}
-                                    </td>
-                                    <td class="px-3 sm:px-6 py-4 text-center text-gray-700 whitespace-nowrap">
-                                        <span class="inline-block bg-gray-300 text-gray-800 text-xs px-2 py-1 rounded-full">
-                                            {{ substr($alumno->telefono, 0, 4) . ' - ' . substr($alumno->telefono, 4, 4) }}
-                                        </span>
-                                    </td>
-                                    <td class="px-3 sm:px-6 py-4 text-center text-gray-700 whitespace-nowrap">
-                                        <span class="inline-block bg-gray-300 text-gray-800 text-xs px-2 py-1 rounded-full">
-                                            {{ substr($alumno->numero_identidad, 0, 4) . ' - ' . substr($alumno->numero_identidad, 4, 4) . ' - ' . substr($alumno->numero_identidad,8,5) }}
-
-                                        </span>
-                                    </td>
-
-                                    <td class="px-3 sm:px-6 py-4 text-center whitespace-nowrap">
-                                        <div class="flex justify-center items-center space-x-4">
-                                            <a href="{{ route('alumnos.show', $alumno->id) }}" class="text-blue-600 hover:text-blue-800" title="Ver">
-                                                <i class="fas fa-eye"></i>
-                                            </a>
-                                            <a href="{{ route('alumnos.edit', $alumno->id) }}" class="text-yellow-500 hover:text-yellow-700" title="Editar">
-                                                <i class="fas fa-edit"></i>
-                                            </a>
-                                            <button class="text-red-600 hover:text-red-800 delete-btn" data-user-id="{{ $alumno->id }}" title="Eliminar">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="4" class="text-center py-4 text-gray-500">
-                                        No se encontraron alumnos.
-                                    </td>
-                                </tr>
-                            @endforelse
-                            </tbody>
-                        </table>
+                    <!-- Controles a la derecha -->
+                    <div>
+                        {!! $alumnos->onEachSide(1)->links('pagination::bootstrap-5') !!}
                     </div>
-                    <!-- Paginación -->
-                    <div class="mt-6 mb-4 mr-4 ml-4">
-                        {{ $alumnos->links('pagination::tailwind') }}
+                </div>
+            @endif
+        </div>
+
+        <!-- Modal de Confirmación de Eliminación -->
+        <div id="confirm-delete-modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">¿Estás seguro de eliminar?</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Esta acción no se puede deshacer. El alumno será eliminado permanentemente.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <form id="delete-form" method="POST" action="">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Modal para confirmar eliminación -->
-    <div id="confirm-delete-modal" class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 hidden">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 class="text-lg font-semibold text-gray-700">{{ __('¿Estás seguro de que deseas eliminar este alumno?') }}</h3>
-            <p class="mt-2 text-sm text-gray-600">{{ __('Esta acción no se puede deshacer.') }}</p>
-            <div class="mt-4 flex justify-end space-x-4">
-                <button id="cancel-delete" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">
-                    {{ __('Cancelar') }}
-                </button>
-                <form id="delete-form" method="POST" action="" class="inline-block">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">
-                        {{ __('Eliminar') }}
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Mostrar el Toast cuando hay un mensaje de éxito
-        if (document.getElementById('toast-message')) {
-            setTimeout(function() {
-                document.getElementById('toast-message').classList.add('hidden');
-            }, 3000); // 3 segundos
-        }
-
-        // Obtén los elementos relevantes para el modal
-        const deleteButtons = document.querySelectorAll('.delete-btn');
-        const modal = document.getElementById('confirm-delete-modal');
-        const cancelButton = document.getElementById('cancel-delete');
-        const deleteForm = document.getElementById('delete-form');
-
-        // Mostrar el modal de confirmación
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const userId = this.getAttribute('data-user-id');
-                deleteForm.action = `/alumnos/${userId}`;  // Configura la acción del formulario para eliminar al alumno
-
-                modal.classList.remove('hidden');
+        <!-- Scripts -->
+        <script>
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const userId = this.getAttribute('data-user-id');
+                    const form = document.getElementById('delete-form');
+                    form.action = `/alumnos/${userId}`;
+                    new bootstrap.Modal(document.getElementById('confirm-delete-modal')).show();
+                });
             });
-        });
 
-        // Cerrar el modal sin eliminar
-        cancelButton.addEventListener('click', function() {
-            modal.classList.add('hidden');
-        });
-    </script>
+            setTimeout(() => {
+                document.querySelectorAll('.toast').forEach(toast => toast.classList.remove('show'));
+            }, 3500);
+        </script>
+
+    </div>
 </x-guest-layout>

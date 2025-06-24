@@ -1,143 +1,129 @@
 <x-guest-layout>
+    <div class="container py-4">
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-lg sm:rounded-lg">
-                <div class="p-6 text-gray-900">
+        <!-- Contenedor -->
+        <div class="bg-light border rounded-3 px-3 py-4 shadow-sm">
 
-                    <!-- Mensaje de éxito (Toast) -->
-                    @if(session('status'))
-                        <div id="toast-message" class="fixed top-5 right-5 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
+            <!-- Toasts -->
+            @if(session('status'))
+                <div class="toast align-items-center text-bg-success border-0 show position-fixed top-0 end-0 m-4" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">
                             {{ session('status') }}
                         </div>
-                    @endif
-
-                    <!-- Botón Agregar Proyecto alineado a la derecha -->
-                    <div class="mb-4 flex justify-end">
-                        <a href="{{ route('projects.create') }}" class="inline-flex items-center bg-blue-600 text-white py-2 px-6 rounded-lg shadow-md hover:bg-blue-700 focus:outline-none transition ease-in-out duration-300 transform hover:scale-105">
-                            <i class="fas fa-plus mr-2 text-lg"></i> {{ __('Agregar Proyecto') }}
-                        </a>
-                    </div>
-
-                    <!-- Tabla de Proyectos -->
-                    <div class="overflow-x-auto bg-gray-50 shadow-md rounded-lg">
-                        <table id="projects-table" class="min-w-full text-sm text-left text-gray-600">
-                            <thead class="text-xs text-gray-700 uppercase bg-gray-200 border-b">
-                            <tr>
-                                <th scope="col" class="px-6 py-3 font-semibold text-center text-gray-700">
-                                    {{ __('Nombre del Proyecto') }}
-                                </th>
-                                <th scope="col" class="px-6 py-3 font-semibold text-center text-gray-700">
-                                    {{ __('Estudiante') }}
-                                </th>
-                                <th scope="col" class="px-6 py-3 font-semibold text-center text-gray-700">
-                                    {{ __('Profesor') }}
-                                </th>
-                                <th scope="col" class="px-6 py-3 font-semibold text-center text-gray-700">
-                                    {{ __('Estado') }}
-                                </th>
-                                <th scope="col" class="px-6 py-3 font-semibold text-center text-gray-700">
-                                    {{ __('Acciones') }}
-                                </th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            @foreach($projects as $project)
-                                <tr class="bg-white border-b hover:bg-gray-100 transition-colors duration-300">
-                                    <td class="px-6 py-4 font-medium text-gray-900 text-center">
-                                        {{ $project->name }}
-                                    </td>
-                                    <td class="px-6 py-4 text-gray-700 text-center">
-                                        {{ $project->student->name }}
-                                    </td>
-                                    <td class="px-6 py-4 text-gray-700 text-center">
-                                        {{ $project->professor->name }}
-                                    </td>
-                                    <td class="px-6 py-4 text-center">
-                                        <!-- Etiqueta de Estado con Color -->
-                                        <span class="px-3 py-1 rounded-full text-white
-                                                {{ $project->status == 'activo' ? 'bg-green-500' : 'bg-gray-500' }}">
-                                                {{ ucfirst($project->status) }}
-                                            </span>
-                                    </td>
-                                    <td class="text-sm text-center">
-                                        <!-- Botón Ver -->
-                                        <a href="{{ route('projects.show', $project->id) }}" class="text-blue-600 hover:text-blue-800 transition-colors duration-300 text-xl">
-                                            <i class="fas fa-eye"></i>
-                                        </a>
-
-                                        <!-- Botón Editar -->
-                                        <a href="{{ route('projects.edit', $project->id) }}" class="text-yellow-500 hover:text-yellow-700 transition-colors duration-300 text-xl">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-
-                                        <!-- Botón Eliminar -->
-                                        <button class="text-red-600 hover:text-red-800 transition-colors duration-300 delete-btn text-xl" data-project-id="{{ $project->id }}">
-                                            <i class="fas fa-trash"></i>
-                                        </button>
-                                    </td>
-                                </tr>
-                            @endforeach
-                            </tbody>
-                        </table>
-
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
                     </div>
                 </div>
-                <!-- Paginación -->
-                <div class="mt-6 mb-4 mr-4 ml-4">
-                    {{ $projects->appends(request()->query())->links('pagination::tailwind') }}
+            @endif
+
+            <!-- Encabezado y acciones -->
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
+                <h2 class="h4 text-primary-emphasis fw-bold m-0">Proyectos</h2>
+                <a href="{{ route('projects.create') }}" class="btn btn-success d-flex align-items-center justify-content-center" title="Agregar proyecto">
+                    <i class="fas fa-plus me-1"></i> <span class="d-none d-sm-inline">Agregar proyecto</span>
+                </a>
+            </div>
+
+            <!-- Tabla de Proyectos -->
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle text-center table-sm">
+                    <thead class="table-dark">
+                    <tr>
+                        <th style="width: 50px;">N°</th>
+                        <th>Nombre del Proyecto</th>
+                        <th>Estudiante</th>
+                        <th>Profesor</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody class="table-light">
+                    @forelse ($projects as $index => $project)
+                        <tr>
+                            <td class="text-start fw-semibold">{{ $projects->firstItem() + $index }}</td>
+
+                            <td class="text-start fw-semibold">{{ $project->name }}</td>
+                            <td class="text-start">{{ $project->student->name }}</td>
+                            <td class="text-start">{{ $project->professor->name }}</td>
+                            <td>
+                                    <span class="badge {{ $project->status == 'activo' ? 'bg-success' : 'bg-secondary' }}">
+                                        {{ ucfirst($project->status) }}
+                                    </span>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center gap-2">
+                                    <a href="{{ route('projects.show', $project->id) }}" class="btn btn-sm btn-outline-primary" title="Ver">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-sm btn-outline-warning" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                    <button class="btn btn-sm btn-outline-danger delete-btn" data-project-id="{{ $project->id }}" title="Eliminar">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </div>
+                            </td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center text-muted">No se encontraron proyectos registrados.</td>
+                        </tr>
+                    @endforelse
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Paginación -->
+            @if ($projects->hasPages())
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 gap-2">
+                    <div class="text-muted small mb-2 mb-md-0">
+                        Mostrando {{ $projects->firstItem() }} a {{ $projects->lastItem() }} de {{ $projects->total() }} resultados
+                    </div>
+                    <div>
+                        {!! $projects->onEachSide(1)->appends(request()->query())->links('pagination::bootstrap-5') !!}
+                    </div>
+                </div>
+            @endif
+        </div>
+
+        <!-- Modal de Confirmación de Eliminación -->
+        <div id="confirm-delete-modal" class="modal fade" tabindex="-1">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header bg-danger text-white">
+                        <h5 class="modal-title">¿Eliminar proyecto?</h5>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Esta acción no se puede deshacer. El proyecto será eliminado permanentemente.</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <form id="delete-form" method="POST" action="">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Modal para Confirmar Eliminación -->
-    <div id="confirm-delete-modal" class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 hidden">
-        <div class="bg-white p-6 rounded-lg shadow-lg w-96">
-            <h3 class="text-lg font-semibold text-gray-700">{{ __('¿Estás seguro de que deseas eliminar este proyecto?') }}</h3>
-            <p class="mt-2 text-sm text-gray-600">{{ __('Esta acción no se puede deshacer.') }}</p>
-            <div class="mt-4 flex justify-end space-x-4">
-                <button id="cancel-delete" class="bg-gray-300 text-gray-700 px-4 py-2 rounded-md hover:bg-gray-400">
-                    {{ __('Cancelar') }}
-                </button>
-                <form id="delete-form" method="POST" action="" class="inline-block">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-700">
-                        {{ __('Eliminar') }}
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        // Mostrar el Toast cuando hay un mensaje de éxito
-        if (document.getElementById('toast-message')) {
-            setTimeout(function() {
-                document.getElementById('toast-message').classList.add('hidden');
-            }, 3000); // 3 segundos
-        }
-
-        // Obtén los elementos relevantes para el modal
-        const deleteButtons = document.querySelectorAll('.delete-btn');
-        const modal = document.getElementById('confirm-delete-modal');
-        const cancelButton = document.getElementById('cancel-delete');
-        const deleteForm = document.getElementById('delete-form');
-
-        // Mostrar el modal de confirmación
-        deleteButtons.forEach(button => {
-            button.addEventListener('click', function() {
-                const projectId = this.getAttribute('data-project-id');
-                deleteForm.action = `/projects/${projectId}`;  // Configura la acción del formulario para eliminar el proyecto
-
-                modal.classList.remove('hidden');
+        <!-- Scripts -->
+        <script>
+            document.querySelectorAll('.delete-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    const projectId = this.getAttribute('data-project-id');
+                    const form = document.getElementById('delete-form');
+                    form.action = `/projects/${projectId}`;
+                    new bootstrap.Modal(document.getElementById('confirm-delete-modal')).show();
+                });
             });
-        });
 
-        // Cerrar el modal sin eliminar
-        cancelButton.addEventListener('click', function() {
-            modal.classList.add('hidden');
-        });
-    </script>
+            setTimeout(() => {
+                document.querySelectorAll('.toast').forEach(toast => toast.classList.remove('show'));
+            }, 3000);
+        </script>
+
+    </div>
 </x-guest-layout>

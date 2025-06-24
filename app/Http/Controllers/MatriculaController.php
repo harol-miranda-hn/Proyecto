@@ -22,7 +22,7 @@ class MatriculaController extends Controller
             });
         }
 
-        $matriculas = $query->paginate(4);
+        $matriculas = $query->paginate(5);
         return view('matriculas.index', compact('matriculas'));
     }
 

@@ -18,7 +18,7 @@ class AsignaturaController extends Controller
         }
 
         $asignaturas = $query->orderBy('nombre')
-            ->paginate(4)
+            ->paginate(5)
             ->appends(['search' => $request->search]);
 
         return view('asignaturas.index', compact('asignaturas'));
