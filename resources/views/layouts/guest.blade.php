@@ -21,7 +21,78 @@
             font-family: 'Poppins', sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #e4edf9 100%);
         }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 0.375rem;
+        }
+
+        .nav-link i {
+            width: 20px;
+            text-align: center;
+        }
+
+        .icon-size {
+            font-size: 1.75rem;
+        }
+
+        .user-name, .user-email {
+            font-size: 0.85rem;
+        }
+
+        .institution-text span,
+        .institution-text small {
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 576px) {
+            .icon-size {
+                font-size: 1.4rem;
+            }
+
+            .user-name,
+            .user-email,
+            .institution-text span,
+            .institution-text small {
+                font-size: 0.7rem;
+            }
+
+            .user-info {
+                max-width: 120px;
+            }
+
+            .institution-text {
+                max-width: 140px;
+            }
+        }
+
+        .sidebar-link {
+            transition: background 0.2s;
+            border-radius: 0.375rem;
+            padding: 0.5rem 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .sidebar-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            text-decoration: none;
+        }
+
+        .nav.flex-column {
+            gap: 0.25rem;
+        }
+
+        .offcanvas .nav.flex-column a {
+            padding-left: 0.5rem;
+        }
+
+        .offcanvas .text-secondary {
+            font-size: 0.75rem;
+        }
     </style>
+
+
 </head>
 <body>
 
@@ -30,6 +101,15 @@
 
 <!-- Main Layout -->
 @include('layouts.app')
+
+<script>
+    function closeSidebar() {
+        const sidebar = bootstrap.Offcanvas.getInstance(document.getElementById('sidebarMenu'));
+        if (sidebar) {
+            sidebar.hide();
+        }
+    }
+</script>
 
 <!-- JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" defer></script>

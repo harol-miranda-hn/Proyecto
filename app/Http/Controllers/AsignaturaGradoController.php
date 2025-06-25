@@ -13,7 +13,7 @@ class AsignaturaGradoController extends Controller
      */
     public function index()
     {
-        $grados = Grado::with('asignaturas')->paginate(3); // Paginación de 4
+        $grados = Grado::with('asignaturas')->paginate(4); // Paginación de 4
         return view('asignatura_grado.index', compact('grados'));
     }
 

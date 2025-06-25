@@ -1,12 +1,12 @@
 <x-guest-layout>
     <div class="container py-4">
-
         <!-- Contenedor completo -->
-        <div class="bg-light border rounded-3 px-3 py-4 shadow-sm">
+        <div class="px-4 py-4 shadow rounded-4 border" style="background-color: #fafafa;">
 
             <!-- Toasts -->
             @if(session('status'))
-                <div class="toast align-items-center text-bg-success border-0 show position-fixed top-0 end-0 m-4" role="alert">
+                <div class="toast align-items-center border-0 show position-fixed top-0 end-0 m-4 text-white"
+                     role="alert" style="background-color: #388e3c;">
                     <div class="d-flex">
                         <div class="toast-body">
                             {{ session('status') }}
@@ -17,7 +17,8 @@
             @endif
 
             @if(session('error'))
-                <div class="toast align-items-center text-bg-danger border-0 show position-fixed top-0 end-0 m-4" role="alert">
+                <div class="toast align-items-center border-0 show position-fixed top-0 end-0 m-4 text-white"
+                     role="alert" style="background-color: #b00020;">
                     <div class="d-flex">
                         <div class="toast-body">
                             {{ session('error') }}
@@ -29,80 +30,130 @@
 
             <!-- Encabezado y Acciones -->
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
-                <h2 class="h4 text-primary-emphasis fw-bold m-0">Grados / Secciones</h2>
+                <h2 class="h4 fw-bold m-0" style="color: #6200ea;">Grados / Secciones</h2>
 
                 <div class="d-flex flex-wrap align-items-stretch gap-2">
-                    <!-- Buscar -->
                     <form method="GET" action="{{ route('grados.index') }}" class="d-flex" style="flex: 1 1 auto; min-width: 240px;">
                         <div class="input-group">
                             <input type="text" name="search" value="{{ request('search') }}" class="form-control" placeholder="Buscar grados o secciones">
-                            <button type="submit" class="btn btn-outline-primary" title="Buscar">
+                            <button type="submit" class="btn" style="border-color: #6200ea; color: #6200ea;" title="Buscar">
                                 <i class="fas fa-search"></i>
                             </button>
                         </div>
                     </form>
 
-                    <!-- Restablecer -->
-                    <a href="{{ route('grados.index') }}" class="btn btn-outline-secondary d-flex align-items-center justify-content-center" title="Restablecer">
+                    <a href="{{ route('grados.index') }}" class="btn" style="border-color: #03dac6; color: #03dac6;" title="Restablecer">
                         <i class="fas fa-sync-alt"></i>
                     </a>
 
-                    <!-- Nuevo grado -->
-                    <a href="{{ route('grados.create') }}" class="btn btn-success d-flex align-items-center justify-content-center" title="Agregar nuevo grado">
+                    <a href="{{ route('grados.create') }}" class="btn text-white rounded-pill px-3" style="background-color: #6200ea;" title="Agregar nuevo grado">
                         <i class="fas fa-plus"></i> <span class="d-none d-sm-inline ms-1">Nuevo</span>
                     </a>
 
-                    <!-- Matricular -->
-                    <a href="{{ route('matriculas.create') }}" class="btn btn-primary d-flex align-items-center justify-content-center" title="Matricular alumnos">
+                    <a href="{{ route('matriculas.create') }}" class="btn text-white rounded-pill px-3" style="background-color: #0288d1;" title="Matricular alumnos">
                         <i class="fas fa-user-graduate"></i> <span class="d-none d-sm-inline ms-1">Matricular</span>
                     </a>
                 </div>
             </div>
 
-            <!-- Tabla de Grados -->
+            <!-- Tabla y tarjetas -->
             <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle text-center table-sm">
-                    <thead class="table-dark">
-                    <tr>
-                        <th style="width: 50px;">N°</th>
-                        <th>Modalidad</th>
-                        <th>Curso</th>
-                        <th>Sección</th>
-                        <th>Jornada</th>
-                        <th>Alumnos</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tbody class="table-light">
-                    @forelse($grados as $index => $grado)
+                @if($grados->count())
+
+                    <!-- Tabla para escritorio -->
+                    <table class="table table-bordered table-hover align-middle table-sm d-none d-md-table">
+                        <thead class="table-dark text-center">
                         <tr>
-                            <td class="text-center fw-semibold">{{ $grados->firstItem() + $index }}</td>
-                            <td class="text-start fw-semibold">{{ $grado->modalidad }}</td>
-                            <td>{{ $grado->curso }}</td>
-                            <td>{{ $grado->seccion }}</td>
-                            <td>{{ $grado->jornada }}</td>
-                            <td><span class="badge bg-info text-dark">{{ $grado->matricula }}</span></td>
-                            <td>
-                                <div class="d-flex justify-content-center gap-2">
-                                    <a href="{{ route('grados.show', $grado->id) }}" class="btn btn-sm btn-outline-primary" title="Ver detalles">
-                                        <i class="fas fa-eye"></i>
-                                    </a>
-                                    <a href="{{ route('grados.edit', $grado->id) }}" class="btn btn-sm btn-outline-warning" title="Editar grado">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    <button class="btn btn-sm btn-outline-danger delete-btn" data-user-id="{{ $grado->id }}" title="Eliminar grado">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
+                            <th style="width: 50px;">N°</th>
+                            <th>Modalidad</th>
+                            <th>Curso</th>
+                            <th>Sección</th>
+                            <th>Jornada</th>
+                            <th>Alumnos</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody style="background-color: #ffffff;">
+                        @foreach($grados as $index => $grado)
+                            <tr>
+                                <td class="text-center fw-semibold py-2">{{ $grados->firstItem() + $index }}</td>
+                                <td class="text-start fw-semibold">{{ $grado->modalidad }}</td>
+                                <td>{{ $grado->curso }}</td>
+                                <td>{{ $grado->seccion }}</td>
+                                <td>{{ $grado->jornada }}</td>
+                                <td>
+                                    <span class="badge rounded-pill px-3 py-2 text-dark" style="background-color: #ffecb3;">
+                                        {{ $grado->matricula }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <div class="d-flex justify-content-center gap-2">
+                                        <a href="{{ route('grados.show', $grado->id) }}" class="btn btn-sm text-white rounded-circle" style="background-color: #0288d1;" title="Ver detalles">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ route('grados.edit', $grado->id) }}" class="btn btn-sm text-white rounded-circle" style="background-color: #fbc02d;" title="Editar grado">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button class="btn btn-sm text-white rounded-circle delete-btn" style="background-color: #b00020;" data-user-id="{{ $grado->id }}" title="Eliminar grado">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
+
+                    <!-- Tarjetas para móviles -->
+                    <div class="d-md-none">
+                        @foreach($grados as $index => $grado)
+                            <div class="card shadow-sm mb-3 border-0 rounded-4">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between align-items-center mb-2">
+                                        <h6 class="mb-0 fw-bold" style="color: #6200ea;">
+                                            {{ $grado->curso }} - {{ $grado->seccion }}
+                                        </h6>
+                                        <span class="badge" style="background-color: #eeeeee; color: #757575;">
+                        #{{ $grados->firstItem() + $index }}
+                    </span>
+                                    </div>
+
+                                    <ul class="list-group list-group-flush small mb-2">
+                                        <li class="list-group-item px-0 py-1 border-0 d-flex align-items-center">
+                                            <i class="fas fa-graduation-cap me-2 text-secondary"></i>
+                                            {{ $grado->modalidad }}
+                                        </li>
+                                        <li class="list-group-item px-0 py-1 border-0 d-flex align-items-center">
+                                            <i class="fas fa-clock me-2 text-secondary"></i>
+                                            {{ $grado->jornada }}
+                                        </li>
+                                        <li class="list-group-item px-0 py-1 border-0 d-flex align-items-center">
+                                            <i class="fas fa-users me-2 text-secondary"></i>
+                                            <span class="badge rounded-pill px-2 py-1 text-dark" style="background-color: #ffecb3;">
+                            {{ $grado->matricula }} alumnos
+                        </span>
+                                        </li>
+                                    </ul>
+
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <a href="{{ route('grados.show', $grado->id) }}" class="btn btn-sm text-white rounded-circle" style="background-color: #0288d1;" title="Ver detalles">
+                                            <i class="fas fa-eye"></i>
+                                        </a>
+                                        <a href="{{ route('grados.edit', $grado->id) }}" class="btn btn-sm text-white rounded-circle" style="background-color: #fbc02d;" title="Editar grado">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <button class="btn btn-sm text-white rounded-circle delete-btn" style="background-color: #b00020;" data-user-id="{{ $grado->id }}" title="Eliminar grado">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
                                 </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="6" class="text-center text-muted">No se encontraron grados registrados.</td>
-                        </tr>
-                    @endforelse
-                    </tbody>
-                </table>
+                            </div>
+                        @endforeach
+                    </div>
+
+                @else
+                    <div class="text-center text-muted py-3">No se encontraron grados registrados.</div>
+                @endif
             </div>
 
             <!-- Paginación -->
@@ -122,7 +173,7 @@
         <div id="confirm-delete-modal" class="modal fade" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
-                    <div class="modal-header bg-danger text-white">
+                    <div class="modal-header text-white" style="background-color: #b00020;">
                         <h5 class="modal-title">¿Estás seguro de eliminar?</h5>
                         <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
                     </div>
@@ -134,7 +185,7 @@
                         <form id="delete-form" method="POST" action="">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
+                            <button type="submit" class="btn text-white" style="background-color: #b00020;">Eliminar</button>
                         </form>
                     </div>
                 </div>

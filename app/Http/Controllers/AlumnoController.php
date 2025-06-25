@@ -97,25 +97,80 @@ class AlumnoController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    /**
+     * Display the specified resource.
+     */
+    public function show(Alumno $alumno)
     {
-        //
+        return view('alumnos.show', compact('alumno'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Alumno $alumno)
     {
-        //
+        return view('alumnos.edit', compact('alumno'));
     }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Alumno $alumno)
     {
-        //
+        $validated = $request->validate([
+            'numero_identidad'        => ['required', 'digits:13', 'unique:alumnos,numero_identidad,' . $alumno->id],
+            'nombre_completo'         => ['required', 'string', 'max:100'],
+            'email'                   => ['nullable', 'email', 'max:100'],
+            'telefono'                => ['required', 'digits:8', 'unique:alumnos,telefono,' . $alumno->id],
+            'fecha_nacimiento'        => ['required', 'date'],
+            'genero'                  => ['required', 'in:M,F'],
+            'direccion'               => ['nullable', 'string', 'max:500'],
+            'descripcion_enfermedad'  => ['nullable', 'string', 'max:500'],
+            'descripcion_observacion' => ['nullable', 'string', 'max:500'],
+            'encargado_nombre'        => ['required', 'string', 'max:100'],
+            'encargado_telefono'      => ['required', 'digits:8', 'unique:alumnos,encargado_telefono,' . $alumno->id],
+            'parentesco'              => ['required', 'in:madre,padre,tutor,otro'],
+        ], [
+            'numero_identidad.required' => 'El número de identidad es obligatorio.',
+            'numero_identidad.digits' => 'El número de identidad debe tener exactamente 13 dígitos.',
+            'numero_identidad.unique' => 'Este número de identidad ya está registrado.',
+
+            'nombre_completo.required' => 'El nombre completo es obligatorio.',
+            'nombre_completo.max' => 'El nombre completo no debe exceder 100 caracteres.',
+
+            'telefono.required' => 'El teléfono del alumno es obligatorio.',
+            'telefono.digits' => 'El teléfono debe tener exactamente 8 dígitos.',
+            'telefono.unique' => 'Este número de teléfono ya está registrado.',
+
+            'encargado_nombre.required' => 'El nombre del encargado es obligatorio.',
+            'encargado_nombre.max' => 'El nombre del encargado no debe exceder 100 caracteres.',
+
+            'encargado_telefono.required' => 'El teléfono del encargado es obligatorio.',
+            'encargado_telefono.digits' => 'El teléfono del encargado debe tener exactamente 8 dígitos.',
+            'encargado_telefono.unique' => 'Este teléfono del encargado ya está registrado.',
+
+            'descripcion_enfermedad.max' => 'La descripción de la enfermedad no debe exceder 500 caracteres.',
+            'descripcion_observacion.max' => 'La descripción de la observación no debe exceder 500 caracteres.',
+
+            'direccion.max' => 'La dirección no debe exceder 500 caracteres.',
+
+            'email.email' => 'Ingrese un correo electrónico válido.',
+            'email.max' => 'El correo electrónico no debe exceder 100 caracteres.',
+
+            'fecha_nacimiento.required' => 'La fecha de nacimiento es obligatoria.',
+
+            'genero.required' => 'El género es obligatorio.',
+            'genero.in' => 'El género debe ser Masculino o Femenino.',
+
+            'parentesco.required' => 'El parentesco es obligatorio.',
+            'parentesco.in' => 'Seleccione una opción válida de parentesco.',
+        ]);
+
+        $alumno->update($validated);
+
+        return redirect()->route('alumnos.index')->with('status', 'Alumno actualizado exitosamente.');
     }
 
     /**

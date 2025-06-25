@@ -1,22 +1,29 @@
 <x-guest-layout>
     <div class="container py-4">
 
-        <!-- Contenedor -->
+        <!-- Contenedor principal -->
         <div class="bg-light border rounded-3 px-3 py-4 shadow-sm">
 
             <!-- Toasts -->
             @if(session('status'))
                 <div class="toast align-items-center text-bg-success border-0 show position-fixed top-0 end-0 m-4" role="alert">
                     <div class="d-flex">
-                        <div class="toast-body">
-                            {{ session('status') }}
-                        </div>
+                        <div class="toast-body">{{ session('status') }}</div>
                         <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
                     </div>
                 </div>
             @endif
 
-            <!-- Encabezado y acciones -->
+            @if(session('error'))
+                <div class="toast align-items-center text-bg-danger border-0 show position-fixed top-0 end-0 m-4" role="alert">
+                    <div class="d-flex">
+                        <div class="toast-body">{{ session('error') }}</div>
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Cerrar"></button>
+                    </div>
+                </div>
+            @endif
+
+            <!-- Encabezado -->
             <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center mb-4 gap-3">
                 <h2 class="h4 text-primary-emphasis fw-bold m-0">Proyectos</h2>
                 <a href="{{ route('projects.create') }}" class="btn btn-success d-flex align-items-center justify-content-center" title="Agregar proyecto">
@@ -24,34 +31,38 @@
                 </a>
             </div>
 
-            <!-- Tabla de Proyectos -->
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle text-center table-sm">
-                    <thead class="table-dark">
-                    <tr>
-                        <th style="width: 50px;">N°</th>
-                        <th>Nombre del Proyecto</th>
-                        <th>Estudiante</th>
-                        <th>Profesor</th>
-                        <th>Estado</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tbody class="table-light">
-                    @forelse ($projects as $index => $project)
-                        <tr>
-                            <td class="text-start fw-semibold">{{ $projects->firstItem() + $index }}</td>
+            <!-- Tarjetas de Proyectos -->
+            <div class="row row-cols-1 row-cols-md-2 g-3">
+                @forelse($projects as $index => $project)
+                    <div class="col">
+                        <div class="card shadow-sm border-0 rounded-4 h-100">
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="card-title fw-bold text-primary-emphasis mb-0">
+                                            {{ $project->name }}
+                                        </h5>
+                                        <span class="badge bg-light text-muted">#{{ $projects->firstItem() + $index }}</span>
+                                    </div>
 
-                            <td class="text-start fw-semibold">{{ $project->name }}</td>
-                            <td class="text-start">{{ $project->student->name }}</td>
-                            <td class="text-start">{{ $project->professor->name }}</td>
-                            <td>
-                                    <span class="badge {{ $project->status == 'activo' ? 'bg-success' : 'bg-secondary' }}">
-                                        {{ ucfirst($project->status) }}
-                                    </span>
-                            </td>
-                            <td>
-                                <div class="d-flex justify-content-center gap-2">
+                                    <p class="card-text text-muted mb-1">
+                                        <i class="fas fa-user-graduate me-2 text-secondary"></i>
+                                        <strong>Estudiante:</strong> {{ $project->student->name }}
+                                    </p>
+
+                                    <p class="card-text text-muted mb-1">
+                                        <i class="fas fa-chalkboard-teacher me-2 text-secondary"></i>
+                                        <strong>Profesor:</strong> {{ $project->professor->name }}
+                                    </p>
+
+                                    <p class="card-text">
+                                        <span class="badge {{ $project->status === 'activo' ? 'bg-success' : 'bg-secondary' }}">
+                                            {{ ucfirst($project->status) }}
+                                        </span>
+                                    </p>
+                                </div>
+
+                                <div class="d-flex justify-content-end gap-2 mt-auto">
                                     <a href="{{ route('projects.show', $project->id) }}" class="btn btn-sm btn-outline-primary" title="Ver">
                                         <i class="fas fa-eye"></i>
                                     </a>
@@ -62,15 +73,14 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="5" class="text-center text-muted">No se encontraron proyectos registrados.</td>
-                        </tr>
-                    @endforelse
-                    </tbody>
-                </table>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12">
+                        <div class="text-center text-muted py-3">No se encontraron proyectos registrados.</div>
+                    </div>
+                @endforelse
             </div>
 
             <!-- Paginación -->
@@ -84,46 +94,46 @@
                     </div>
                 </div>
             @endif
-        </div>
 
-        <!-- Modal de Confirmación de Eliminación -->
-        <div id="confirm-delete-modal" class="modal fade" tabindex="-1">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header bg-danger text-white">
-                        <h5 class="modal-title">¿Eliminar proyecto?</h5>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Esta acción no se puede deshacer. El proyecto será eliminado permanentemente.</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                        <form id="delete-form" method="POST" action="">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-danger">Eliminar</button>
-                        </form>
+            <!-- Modal de Confirmación de Eliminación -->
+            <div id="confirm-delete-modal" class="modal fade" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header bg-danger text-white">
+                            <h5 class="modal-title">¿Eliminar proyecto?</h5>
+                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>Esta acción no se puede deshacer. El proyecto será eliminado permanentemente.</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                            <form id="delete-form" method="POST" action="">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Scripts -->
-        <script>
-            document.querySelectorAll('.delete-btn').forEach(button => {
-                button.addEventListener('click', function () {
-                    const projectId = this.getAttribute('data-project-id');
-                    const form = document.getElementById('delete-form');
-                    form.action = `/projects/${projectId}`;
-                    new bootstrap.Modal(document.getElementById('confirm-delete-modal')).show();
+            <!-- Scripts -->
+            <script>
+                document.querySelectorAll('.delete-btn').forEach(button => {
+                    button.addEventListener('click', function () {
+                        const projectId = this.getAttribute('data-project-id');
+                        const form = document.getElementById('delete-form');
+                        form.action = `/projects/${projectId}`;
+                        new bootstrap.Modal(document.getElementById('confirm-delete-modal')).show();
+                    });
                 });
-            });
 
-            setTimeout(() => {
-                document.querySelectorAll('.toast').forEach(toast => toast.classList.remove('show'));
-            }, 3000);
-        </script>
+                setTimeout(() => {
+                    document.querySelectorAll('.toast').forEach(toast => toast.classList.remove('show'));
+                }, 3000);
+            </script>
 
+        </div>
     </div>
 </x-guest-layout>

@@ -35,44 +35,38 @@
                 </a>
             </div>
 
-            <!-- Tabla de usuarios -->
-            <div class="table-responsive">
-                <table class="table table-bordered table-hover align-middle text-center table-sm">
-                    <thead class="table-dark">
-                    <tr>
-                        <th style="width: 50px;">N°</th>
-                        <th>Nombre</th>
-                        <th>Correo Electrónico</th>
-                        <th>Tipo de Usuario</th>
-                        <th>Acciones</th>
-                    </tr>
-                    </thead>
-                    <tbody class="table-light">
-                    @forelse($users as $index => $user)
-                        <tr>
-                            <td class="text-start fw-semibold">{{ $users->firstItem() + $index }}</td>
-                            <td class="text-start fw-semibold">{{ $user->name }}</td>
-                            <td class="text-start">{{ $user->email }}</td>
-                            <td>
-                                @if ($user->role === 'profesor')
-                                    <span class="badge bg-primary">Profesor</span>
-                                @elseif ($user->role === 'Profesor')
-                                    <span class="badge bg-success">Profesor</span>
-                                @elseif ($user->role === 'estudiante')
-                                    <span class="badge bg-success">Estudiante</span>
-                                @elseif ($user->role === 'Estudiante')
-                                    <span class="badge bg-success">Estudiante</span>
-                                @elseif ($user->role === 'administrador')
-                                    <span class="badge bg-danger">Administrador</span>
-                                @elseif ($user->role === 'Administrador')
-                                    <span class="badge bg-danger">Administrador</span>
-                                @else
-                                    <span class="badge bg-secondary">{{ $user->role }}</span>
-                                @endif
-                            </td>
+            <!-- Tarjetas de usuarios -->
+            <div class="row row-cols-1 row-cols-md-2 g-3">
+                @forelse($users as $index => $user)
+                    <div class="col">
+                        <div class="card shadow-sm border-0 rounded-4 h-100">
+                            <div class="card-body d-flex flex-column justify-content-between">
+                                <div class="mb-3">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="card-title fw-bold text-primary-emphasis mb-0">
+                                            {{ $user->name }}
+                                        </h5>
+                                        <span class="badge bg-light text-muted">#{{ $users->firstItem() + $index }}</span>
+                                    </div>
 
-                            <td>
-                                <div class="d-flex justify-content-center gap-2">
+                                    <p class="card-text text-muted mb-1">
+                                        <i class="fas fa-envelope me-2 text-secondary"></i>{{ $user->email }}
+                                    </p>
+
+                                    <p class="card-text mb-0">
+                                        @php
+                                            $roleClass = match(strtolower($user->role)) {
+                                                'profesor' => 'primary',
+                                                'estudiante' => 'success',
+                                                'administrador' => 'danger',
+                                                default => 'secondary'
+                                            };
+                                        @endphp
+                                        <span class="badge bg-{{ $roleClass }}">{{ ucfirst($user->role) }}</span>
+                                    </p>
+                                </div>
+
+                                <div class="d-flex justify-content-end gap-2 mt-auto">
                                     <a href="{{ route('users.show', $user->id) }}" class="btn btn-sm btn-outline-primary" title="Ver">
                                         <i class="fas fa-eye"></i>
                                     </a>
@@ -83,18 +77,17 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
-                            </td>
-                        </tr>
-                    @empty
-                        <tr>
-                            <td colspan="4" class="text-center text-muted">No se encontraron usuarios registrados.</td>
-                        </tr>
-                    @endforelse
-                    </tbody>
-                </table>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12">
+                        <div class="text-center text-muted py-3">No se encontraron usuarios registrados.</div>
+                    </div>
+                @endforelse
             </div>
 
-            <!-- Paginación -->
+
             @if($users->hasPages())
                 <div class="d-flex flex-column flex-md-row justify-content-between align-items-center mt-4 gap-2">
                     <div class="text-muted small mb-2 mb-md-0">
@@ -105,9 +98,8 @@
                     </div>
                 </div>
             @endif
-        </div>
 
-        <!-- Modal de Confirmación de Eliminación -->
+            <!-- Modal de Confirmación de Eliminación -->
         <div id="confirm-delete-modal" class="modal fade" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">

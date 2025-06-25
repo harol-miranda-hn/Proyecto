@@ -1,190 +1,206 @@
 <x-guest-layout>
-    <div class="form-header">
-        <div class="header-icon">
-            <i class="fas fa-user-graduate"></i>
+    <div class="container py-4">
+
+        <!-- Encabezado del formulario -->
+        <div class="bg-primary bg-gradient text-white rounded-3 p-3 mb-4 d-flex flex-wrap align-items-start gap-3">
+            <div class="rounded-circle bg-white bg-opacity-25 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                <i class="fas fa-user-graduate fs-5"></i>
+            </div>
+            <div class="flex-grow-1">
+                <h2 class="h6 mb-1">Registro de Nuevo Alumno</h2>
+                <p class="mb-0 small">Complete todos los campos requeridos para registrar un nuevo alumno</p>
+            </div>
         </div>
-        <div class="header-text">
-            <h2>Registro de Nuevo Alumno</h2>
-            <p>Complete todos los campos requeridos para registrar un nuevo alumno</p>
+
+        <!-- Contenedor del formulario -->
+        <div class="bg-white rounded-3 shadow-sm p-4">
+            <form action="{{ route('alumnos.store') }}" method="POST" id="studentForm">
+                @csrf
+
+                <!-- Información Personal -->
+                <div class="mb-4 border-bottom pb-3">
+                    <div class="d-flex align-items-center text-primary mb-3">
+                        <div class="bg-light rounded-circle d-flex justify-content-center align-items-center me-2" style="width: 32px; height: 32px;">
+                            <i class="fas fa-user small"></i>
+                        </div>
+                        <h5 class="mb-0">Información Personal</h5>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label for="nombre_completo" class="form-label">Nombre Completo *</label>
+                            <input type="text" class="form-control" id="nombre_completo" name="nombre_completo" value="{{ old('nombre_completo') }}" placeholder="Ej: Juan Carlos Pérez López">
+                            @error('nombre_completo') <div class="text-danger small">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="email" class="form-label">Correo Electrónico</label>
+                            <div class="input-group">
+                                <input type="email" id="email" name="email" class="form-control" placeholder="Ej: alumno@instituto.edu" value="{{ old('email') }}">
+                                <span class="input-group-text"><i class="fas fa-envelope text-muted"></i></span>
+                            </div>
+                            @error('email') <div class="text-danger small">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="numero_identidad" class="form-label">Número de Identidad *</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="numero_identidad" name="numero_identidad" maxlength="13" value="{{ old('numero_identidad') }}" placeholder="Ej: 0801199901234">
+                                <span class="input-group-text"><i class="fas fa-id-card text-muted"></i></span>
+                            </div>
+                            @error('numero_identidad') <div class="text-danger small">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="telefono" class="form-label">Teléfono *</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="telefono" name="telefono" maxlength="8" value="{{ old('telefono') }}" placeholder="Ej: 99998888">
+                                <span class="input-group-text"><i class="fas fa-phone text-muted"></i></span>
+                            </div>
+                            @error('telefono') <div class="text-danger small">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento *</label>
+                            <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" value="{{ old('fecha_nacimiento') }}">
+                            @error('fecha_nacimiento') <div class="text-danger small">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="col-md-3">
+                            <label for="genero" class="form-label">Género *</label>
+                            <div class="input-group">
+                                <select class="form-select" id="genero" name="genero">
+                                    <option value="">Seleccione...</option>
+                                    <option value="M" {{ old('genero') == 'M' ? 'selected' : '' }}>Masculino</option>
+                                    <option value="F" {{ old('genero') == 'F' ? 'selected' : '' }}>Femenino</option>
+                                </select>
+                                <span class="input-group-text"><i class="fas fa-venus-mars text-muted"></i></span>
+                            </div>
+                            @error('genero') <div class="text-danger small">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="col-md-12">
+                            <label for="direccion" class="form-label">Dirección *</label>
+                            <div class="input-group">
+                                <textarea class="form-control" id="direccion" name="direccion" rows="3" placeholder="Ingrese la dirección completa">{{ old('direccion') }}</textarea>
+                                <span class="input-group-text"><i class="fas fa-map-marker-alt text-muted"></i></span>
+                            </div>
+                            @error('direccion') <div class="text-danger small">{{ $message }}</div> @enderror
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Información Adicional -->
+                <div class="mb-4 border-bottom pb-3">
+                    <div class="d-flex align-items-center text-primary mb-3">
+                        <div class="bg-light rounded-circle d-flex justify-content-center align-items-center me-2" style="width: 32px; height: 32px;">
+                            <i class="fas fa-info-circle small"></i>
+                        </div>
+                        <h5 class="mb-0">Información Adicional</h5>
+                    </div>
+
+                    <div class="row g-3">
+                        <div class="col-md-4">
+                            <label for="encargado_nombre" class="form-label">Nombre del Encargado *</label>
+                            <input type="text" class="form-control" id="encargado_nombre" name="encargado_nombre" value="{{ old('encargado_nombre') }}" placeholder="Ej: María López">
+                            @error('encargado_nombre') <div class="text-danger small">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="encargado_telefono" class="form-label">Teléfono del Encargado *</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="encargado_telefono" name="encargado_telefono" maxlength="8" value="{{ old('encargado_telefono') }}" placeholder="Ej: 88887777">
+                                <span class="input-group-text"><i class="fas fa-mobile-alt text-muted"></i></span>
+                            </div>
+                            @error('encargado_telefono') <div class="text-danger small">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="col-md-4">
+                            <label for="parentesco" class="form-label">Parentesco *</label>
+                            <div class="input-group">
+                                <select class="form-select" id="parentesco" name="parentesco">
+                                    <option value="">Seleccione...</option>
+                                    <option value="madre" {{ old('parentesco') == 'madre' ? 'selected' : '' }}>Madre</option>
+                                    <option value="padre" {{ old('parentesco') == 'padre' ? 'selected' : '' }}>Padre</option>
+                                    <option value="tutor" {{ old('parentesco') == 'tutor' ? 'selected' : '' }}>Tutor</option>
+                                    <option value="otro" {{ old('parentesco') == 'otro' ? 'selected' : '' }}>Otro</option>
+                                </select>
+                                <span class="input-group-text"><i class="fas fa-users text-muted"></i></span>
+                            </div>
+                            @error('parentesco') <div class="text-danger small">{{ $message }}</div> @enderror
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="descripcion_enfermedad" class="form-label">Información de Salud</label>
+                            <div class="input-group">
+                                <textarea class="form-control" id="descripcion_enfermedad" name="descripcion_enfermedad" rows="3" placeholder="Detalles de enfermedades, alergias o condiciones médicas...">{{ old('descripcion_enfermedad') }}</textarea>
+                                <span class="input-group-text"><i class="fas fa-heartbeat text-muted"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="descripcion_observacion" class="form-label">Observaciones</label>
+                            <div class="input-group">
+                                <textarea class="form-control" id="descripcion_observacion" name="descripcion_observacion" rows="3" placeholder="Observaciones conductuales o académicas...">{{ old('descripcion_observacion') }}</textarea>
+                                <span class="input-group-text"><i class="fas fa-clipboard-check text-muted"></i></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex flex-column flex-sm-row justify-content-end gap-2 mt-4">
+                    <a href="{{ route('alumnos.index') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-times me-1"></i> Cancelar
+                    </a>
+                    <button type="reset" class="btn btn-warning text-white">
+                        <i class="fas fa-broom me-1"></i> Limpiar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-user-plus me-1"></i> Registrar Alumno
+                    </button>
+                </div>
+            </form>
         </div>
-    </div>
-
-    <div class="form-container">
-        <form action="{{ route('alumnos.store') }}" method="POST" id="studentForm">
-            @csrf
-            <!-- Información Personal -->
-            <div class="form-section">
-                <div class="section-title">
-                    <i class="fas fa-user"></i>
-                    <h3>Información Personal</h3>
-                </div>
-
-                <div class="form-grid">
-                    <div class="input-group half-width">
-                        <label for="nombre_completo">Nombre Completo *</label>
-                        <input type="text" id="nombre_completo" name="nombre_completo" class="input-field"
-                               placeholder="Ej: Juan Carlos Pérez López" value="{{ old('nombre_completo') }}">
-                        @error('nombre_completo')
-                        <span class="error-message">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="input-group half-width">
-                        <label for="email">Correo Electrónico</label>
-                        <input type="email" id="email" name="email" class="input-field"
-                               placeholder="Ej: alumno@instituto.edu" value="{{ old('email') }}">
-                        <i class="fas fa-envelope input-icon"></i>
-                        @error('email')
-                        <span class="error-message">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="input-group">
-                        <label for="numero_identidad">Número de Identidad *</label>
-                        <input type="text" id="numero_identidad" name="numero_identidad" class="input-field"
-                               placeholder="Ej: 0801199901234" maxlength="13" value="{{ old('numero_identidad') }}">
-                        <i class="fas fa-id-card input-icon"></i>
-                        @error('numero_identidad')
-                        <span class="error-message">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="input-group">
-                        <label for="telefono">Teléfono *</label>
-                        <input type="text" id="telefono" name="telefono" class="input-field"
-                               placeholder="Ej: 99998888" maxlength="8" value="{{ old('telefono') }}">
-                        <i class="fas fa-phone input-icon"></i>
-                        @error('telefono')
-                        <span class="error-message">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="input-group">
-                        <label for="fecha_nacimiento">Fecha de Nacimiento *</label>
-                        <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" class="input-field" value="{{ old('fecha_nacimiento') }}">
-                        @error('fecha_nacimiento')
-                        <span class="error-message">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="input-group">
-                        <label for="genero">Género *</label>
-                        <select id="genero" name="genero" class="input-field">
-                            <option value="">Seleccione...</option>
-                            <option value="M" {{ old('genero') == 'M' ? 'selected' : '' }}>Masculino</option>
-                            <option value="F" {{ old('genero') == 'F' ? 'selected' : '' }}>Femenino</option>
-                        </select>
-                        <i class="fas fa-venus-mars input-icon"></i>
-                        @error('genero')
-                        <span class="error-message">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="input-group half-width">
-                        <label for="direccion">Dirección *</label>
-                        <textarea id="direccion" name="direccion" class="input-field"
-                                  placeholder="Ingrese la dirección completa">{{ old('direccion') }}</textarea>
-                        <i class="fas fa-map-marker-alt input-icon"></i>
-                        @error('direccion')
-                        <span class="error-message">{{ $message }}</span>
-                        @enderror
-                    </div>
-                </div>
-            </div>
-
-            <!-- Información Adicional -->
-            <div class="form-section">
-                <div class="section-title">
-                    <i class="fas fa-info-circle"></i>
-                    <h3>Información Adicional</h3>
-                </div>
-
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label for="encargado_nombre">Nombre del Encargado *</label>
-                        <input type="text" id="encargado_nombre" name="encargado_nombre" class="input-field"
-                               placeholder="Ej: María López" value="{{ old('encargado_nombre') }}">
-                        @error('encargado_nombre')
-                        <span class="error-message">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="input-group">
-                        <label for="encargado_telefono">Teléfono del Encargado *</label>
-                        <input type="text" id="encargado_telefono" name="encargado_telefono" class="input-field"
-                               placeholder="Ej: 88887777" maxlength="8" value="{{ old('encargado_telefono') }}">
-                        <i class="fas fa-mobile-alt input-icon"></i>
-                        @error('encargado_telefono')
-                        <span class="error-message">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="input-group">
-                        <label for="parentesco">Parentesco *</label>
-                        <select id="parentesco" name="parentesco" class="input-field">
-                            <option value="">Seleccione...</option>
-                            <option value="madre" {{ old('parentesco') == 'madre' ? 'selected' : '' }}>Madre</option>
-                            <option value="padre" {{ old('parentesco') == 'padre' ? 'selected' : '' }}>Padre</option>
-                            <option value="tutor" {{ old('parentesco') == 'tutor' ? 'selected' : '' }}>Tutor</option>
-                            <option value="otro" {{ old('parentesco') == 'otro' ? 'selected' : '' }}>Otro</option>
-                        </select>
-                        <i class="fas fa-users input-icon"></i>
-                        @error('parentesco')
-                        <span class="error-message">{{ $message }}</span>
-                        @enderror
-                    </div>
-
-                    <div class="input-group half-width">
-                        <label for="descripcion_enfermedad">Información de Salud</label>
-                        <textarea id="descripcion_enfermedad" name="descripcion_enfermedad" class="input-field"
-                                  placeholder="Detalles de enfermedades, alergias o condiciones médicas...">{{ old('descripcion_enfermedad') }}</textarea>
-                        <i class="fas fa-heartbeat input-icon"></i>
-                    </div>
-
-                    <div class="input-group half-width">
-                        <label for="descripcion_observacion">Observaciones</label>
-                        <textarea id="descripcion_observacion" name="descripcion_observacion" class="input-field"
-                                  placeholder="Observaciones conductuales o académicas...">{{ old('descripcion_observacion') }}</textarea>
-                        <i class="fas fa-clipboard-check input-icon"></i>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Botones de acción -->
-            <div class="button-group">
-                <a href="{{ route('alumnos.index') }}" class="btn btn-cancel">
-                    <i class="fas fa-times"></i> Cancelar
-                </a>
-                <button type="reset" class="btn btn-clear">
-                    <i class="fas fa-broom"></i> Limpiar
-                </button>
-                <button type="submit" class="btn btn-submit">
-                    <i class="fas fa-user-plus"></i> Registrar Alumno
-                </button>
-            </div>
-        </form>
     </div>
 
     <script>
-        // Capitalizar nombres, sin números, y sin dobles espacios
         function formatFullName(input) {
-            let caret = input.selectionStart; // Para mantener el cursor
+            const caret = input.selectionStart;
 
-            let text = input.value
-                .replace(/[0-9]/g, '')           // elimina números
-                .replace(/\s{2,}/g, ' ')         // solo un espacio máximo
-                .replace(/[^\S\r\n]+$/g, '')     // elimina espacios finales sin afectar escritura
+            let text = input.value;
+
+            // Permitimos letras, tildes, espacios y quitamos números
+            text = text
+                .replace(/[0-9]/g, '')               // elimina números
+                .replace(/[^\p{L}\s]/gu, '')         // elimina símbolos no letras (excepto espacios)
+                .replace(/\s{2,}/g, ' ');            // reemplaza múltiples espacios por uno
+
+            // Capitaliza cada palabra sin borrar espacios intermedios
+            text = text
                 .toLowerCase()
-                .split(' ')
-                .filter(word => word !== '')
-                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-                .join(' ');
+                .replace(/\b\p{L}/gu, char => char.toUpperCase()); // primera letra de cada palabra
 
-            input.value = text.slice(0, 100);
-            input.setSelectionRange(caret, caret); // Restaura el cursor
+            input.value = text.slice(0, 60);
+            input.setSelectionRange(caret, caret);
         }
 
-        // Solo números y validación de identidad hondureña
+        function formatTextArea(input) {
+            const caret = input.selectionStart;
+
+            let text = input.value;
+
+            text = text
+                .replace(/\s{2,}/g, ' ')               // elimina espacios dobles
+                .replace(/^[ ]+/, '')                  // sin espacios al inicio
+                .replace(/[^\p{L}\d\s.,:;()¿?¡!'"-]/gu, '') // solo letras, números y puntuación básica
+                .toLowerCase();
+
+            text = text.charAt(0).toUpperCase() + text.slice(1);
+            input.value = text.slice(0, 255);
+            input.setSelectionRange(caret, caret);
+        }
+
         function validateIdentity(input) {
             let value = input.value.replace(/\D/g, '');
             if (value.length > 0) {
@@ -202,7 +218,6 @@
             input.value = value.slice(0, 13);
         }
 
-        // Teléfono: solo números, máximo 8 dígitos, empieza con 2,3,8,9
         function validatePhone(input) {
             let value = input.value.replace(/\D/g, '');
             if (value.length > 0 && !/^[2389]/.test(value)) {
@@ -211,23 +226,8 @@
             input.value = value.slice(0, 8);
         }
 
-        // Email: solo caracteres válidos
         function validateEmail(input) {
-            input.value = input.value.replace(/[^a-zA-Z0-9@.+-]/g, '');
-        }
-
-        // Textareas: sin más de un espacio, primera letra mayúscula, 255 caracteres
-        function formatTextArea(input) {
-            let caret = input.selectionStart;
-
-            let text = input.value
-                .replace(/\s{2,}/g, ' ')       // solo un espacio máximo
-                .replace(/[^\S\r\n]+$/g, '')   // elimina espacios finales sin eliminar el último mientras escribe
-                .toLowerCase();
-
-            text = text.charAt(0).toUpperCase() + text.slice(1);
-            input.value = text.slice(0, 255);
-            input.setSelectionRange(caret, caret);
+            input.value = input.value.replace(/[^a-zA-Z0-9@.+-_]/g, '');
         }
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -263,6 +263,5 @@
             });
         });
     </script>
-
 
 </x-guest-layout>
