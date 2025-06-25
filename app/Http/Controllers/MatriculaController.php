@@ -68,17 +68,20 @@ class MatriculaController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Matricula $matricula)
     {
-        //
+        return view('matriculas.show', compact('matricula'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Matricula $matricula)
     {
-        //
+        $alumnos = Alumno::all();
+        $grados = Grado::all();
+
+        return view('matriculas.edit', compact('matricula', 'alumnos', 'grados'));
     }
 
     /**
@@ -112,6 +115,21 @@ class MatriculaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $grado = Grado::findOrFail($id);
+
+        // Verificar si hay relaciones que impidan eliminar
+        $tieneMatriculas = $grado->matriculas()->exists();
+        $tieneCalificaciones = $grado->calificaciones()->exists();
+        $tieneAsignaturas = $grado->asignaturas()->exists();
+
+        if ($tieneMatriculas || $tieneCalificaciones || $tieneAsignaturas) {
+            return redirect()->route('grados.index')
+                ->with('error', 'No se puede eliminar el grado porque hay alumnos matriculados.');
+        }
+
+        $grado->delete();
+
+        return redirect()->route('grados.index')->with('status', 'Grado eliminado correctamente.');
     }
+
 }

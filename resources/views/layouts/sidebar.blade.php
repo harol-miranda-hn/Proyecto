@@ -12,7 +12,7 @@
     <small class="text-uppercase text-secondary fw-bold px-2">Académico</small>
     <nav class="nav flex-column">
         <a href="{{ route('grados.index') }}" class="nav-link text-white sidebar-link" onclick="closeSidebar()" >
-            <i class="fas fa-layer-group me-2"></i> Grados
+            <i class="fas fa-chalkboard-teacher me-2"></i> Grados
         </a>
 
         <a href="{{ route('alumnos.index') }}" class="nav-link text-white sidebar-link" onclick="closeSidebar()">

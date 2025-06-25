@@ -178,6 +178,19 @@ class AlumnoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $alumno = Alumno::findOrFail($id);
+
+        // Validar referencias
+        $tieneCalificaciones = $alumno->calificaciones()->exists();
+        $tieneMatriculas = $alumno->matriculas()->exists();
+
+        if ($tieneCalificaciones || $tieneMatriculas) {
+            return redirect()->route('alumnos.index')->with('error', 'No se puede eliminar el alumno porque está asociado a otras tablas.');
+        }
+
+        $alumno->delete();
+
+        return redirect()->route('alumnos.index')->with('status', 'Alumno eliminado correctamente.');
     }
+
 }

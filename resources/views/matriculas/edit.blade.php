@@ -2,26 +2,22 @@
     <div class="container py-4">
 
         <!-- Encabezado -->
-        <div class="bg-primary bg-gradient text-white rounded-3 p-3 mb-4 d-flex flex-wrap align-items-start gap-3">
-            <div class="rounded-circle bg-white bg-opacity-25 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+        <div class="bg-warning bg-gradient text-white rounded-3 p-3 mb-4 d-flex flex-wrap align-items-start gap-3">
+            <div class="rounded-circle bg-white bg-opacity-25 d-flex align-items-center justify-content-center"
+                 style="width: 48px; height: 48px;">
                 <i class="fas fa-file-signature fs-5"></i>
             </div>
             <div class="flex-grow-1">
-                <h2 class="h6 mb-1">Nueva Matrícula</h2>
-                <p class="mb-0 small">Complete los campos para matricular un alumno en un grado</p>
+                <h2 class="h6 mb-1">Editar Matrícula</h2>
+                <p class="mb-0 small">Modifique los campos necesarios y guarde los cambios</p>
             </div>
         </div>
 
         <!-- Formulario -->
         <div class="bg-white rounded-3 shadow-sm p-4">
-            @if(session('status'))
-                <div class="alert alert-success">
-                    {{ session('status') }}
-                </div>
-            @endif
-
-            <form action="{{ route('matriculas.store') }}" method="POST">
+            <form action="{{ route('matriculas.update', $matricula->id) }}" method="POST">
                 @csrf
+                @method('PUT')
 
                 <div class="row g-3">
 
@@ -31,7 +27,8 @@
                         <select name="alumno_id" id="alumno_id" class="form-select">
                             <option value="">Seleccione un alumno</option>
                             @foreach($alumnos as $alumno)
-                                <option value="{{ $alumno->id }}" {{ old('alumno_id') == $alumno->id ? 'selected' : '' }}>
+                                <option value="{{ $alumno->id }}"
+                                    {{ old('alumno_id', $matricula->alumno_id) == $alumno->id ? 'selected' : '' }}>
                                     {{ $alumno->nombre_completo }}
                                 </option>
                             @endforeach
@@ -47,7 +44,8 @@
                         <select name="grado_id" id="grado_id" class="form-select">
                             <option value="">Seleccione un grado</option>
                             @foreach($grados as $grado)
-                                <option value="{{ $grado->id }}" {{ old('grado_id') == $grado->id ? 'selected' : '' }}>
+                                <option value="{{ $grado->id }}"
+                                    {{ old('grado_id', $matricula->grado_id) == $grado->id ? 'selected' : '' }}>
                                     {{ $grado->curso }} de {{ $grado->modalidad }} - sección {{ $grado->seccion }} ({{ $grado->jornada }})
                                 </option>
                             @endforeach
@@ -57,11 +55,12 @@
                         @enderror
                     </div>
 
-                    <!-- Fecha de matrícula -->
+                    <!-- Fecha -->
                     <div class="col-md-6">
                         <label for="fecha_matricula" class="form-label">Fecha de Matrícula *</label>
                         <input type="date" name="fecha_matricula" id="fecha_matricula" class="form-control"
-                               value="{{ old('fecha_matricula', date('Y-m-d')) }}">
+                               value="{{ old('fecha_matricula', \Carbon\Carbon::parse($matricula->fecha_matricula)->format('Y-m-d')) }}"
+
                         @error('fecha_matricula')
                         <div class="text-danger small">{{ $message }}</div>
                         @enderror
@@ -74,7 +73,7 @@
                         <i class="fas fa-arrow-left me-1"></i> Volver
                     </a>
                     <button type="submit" class="btn btn-primary">
-                        <i class="fas fa-check me-1"></i> Matricular Alumno
+                        <i class="fas fa-save me-1"></i> Guardar Cambios
                     </button>
                 </div>
             </form>

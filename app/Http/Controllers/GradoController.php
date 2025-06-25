@@ -36,7 +36,7 @@ class GradoController extends Controller
      */
     public function create()
     {
-        //
+        return view('grados.create');
     }
 
     /**
@@ -44,31 +44,69 @@ class GradoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'curso'     => ['required', 'string', 'max:255'],
+            'modalidad' => ['required', 'string', 'max:255'],
+            'jornada'   => ['required', 'in:Matutina,Vespertina,Nocturna,ISEMED'],
+            'seccion'   => ['required', 'in:A,B,C,D,E,F,G'],
+            'matricula' => ['nullable', 'integer', 'min:0'],
+        ], [
+            'curso.required'     => 'El campo curso es obligatorio.',
+            'modalidad.required' => 'El campo modalidad es obligatorio.',
+            'jornada.required'   => 'Debe seleccionar una jornada.',
+            'jornada.in'         => 'Seleccione una jornada válida.',
+            'seccion.required'   => 'Debe seleccionar una sección.',
+            'seccion.in'         => 'Seleccione una sección válida.',
+            'matricula.integer'  => 'La matrícula debe ser un número.',
+            'matricula.min'      => 'La matrícula no puede ser negativa.',
+        ]);
+
+        Grado::create($validated);
+
+        return redirect()->route('grados.index')->with('status', 'Grado registrado exitosamente.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Grado $grado)
     {
-        //
+        return view('grados.show', compact('grado'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Grado $grado)
     {
-        //
+        return view('grados.edit', compact('grado'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Grado $grado)
     {
-        //
+        $validated = $request->validate([
+            'curso'     => ['required', 'string', 'max:255'],
+            'modalidad' => ['required', 'string', 'max:255'],
+            'jornada'   => ['required', 'in:Matutina,Vespertina,Nocturna,ISEMED'],
+            'seccion'   => ['required', 'in:A,B,C,D,E,F,G'],
+            'matricula' => ['nullable', 'integer', 'min:0'],
+        ], [
+            'curso.required'     => 'El campo curso es obligatorio.',
+            'modalidad.required' => 'El campo modalidad es obligatorio.',
+            'jornada.required'   => 'Debe seleccionar una jornada.',
+            'jornada.in'         => 'Seleccione una jornada válida.',
+            'seccion.required'   => 'Debe seleccionar una sección.',
+            'seccion.in'         => 'Seleccione una sección válida.',
+            'matricula.integer'  => 'La matrícula debe ser un número.',
+            'matricula.min'      => 'La matrícula no puede ser negativa.',
+        ]);
+
+        $grado->update($validated);
+
+        return redirect()->route('grados.index')->with('status', 'Grado actualizado exitosamente.');
     }
 
     /**
@@ -76,6 +114,18 @@ class GradoController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $grado = Grado::findOrFail($id);
+
+        $tieneMatriculas = $grado->matriculas()->exists();
+        $tieneCalificaciones = $grado->calificaciones()->exists();
+        $tieneAsignaturas = $grado->asignaturas()->exists();
+
+        if ($tieneMatriculas || $tieneCalificaciones || $tieneAsignaturas) {
+            return redirect()->route('grados.index')->with('error', 'No se puede eliminar el grado porque está asociado a otras tablas.');
+        }
+
+        $grado->delete();
+
+        return redirect()->route('grados.index')->with('status', 'Grado eliminado correctamente.');
     }
 }

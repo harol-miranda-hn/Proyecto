@@ -79,9 +79,9 @@
                                 <td class="text-center fw-semibold py-2">{{ $grados->firstItem() + $index }}</td>
                                 <td class="text-start fw-semibold">{{ $grado->modalidad }}</td>
                                 <td>{{ $grado->curso }}</td>
-                                <td>{{ $grado->seccion }}</td>
+                                <td class="text-center">{{ $grado->seccion }}</td>
                                 <td>{{ $grado->jornada }}</td>
-                                <td>
+                                <td class="text-center">
                                     <span class="badge rounded-pill px-3 py-2 text-dark" style="background-color: #ffecb3;">
                                         {{ $grado->matricula }}
                                     </span>
