@@ -50,6 +50,10 @@
                     <a href="{{ route('asignaturas.create') }}" class="btn text-white rounded-pill px-3" style="background-color: #6200ea;" title="Agregar nueva asignatura">
                         <i class="fas fa-plus"></i> <span class="d-none d-sm-inline ms-1">Nueva</span>
                     </a>
+
+                    <a href="{{ route('asignaciones.index') }}" class="btn text-white rounded-pill px-3" style="background-color: #0288d1;" title="Matricular alumnos">
+                        <i class="fas fa-book-reader"></i> <span class="d-none d-sm-inline ms-1">Asignar clases</span>
+                    </a>
                 </div>
             </div>
 

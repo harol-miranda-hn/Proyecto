@@ -100,6 +100,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/calificaciones/{calificacion}/editar', [CalificacionController::class, 'edit'])->name('calificaciones.edit');
     Route::put('/calificaciones/{calificacion}', [CalificacionController::class, 'update'])->name('calificaciones.update');
     Route::delete('/calificaciones/{id}', [CalificacionController::class, 'destroy'])->name('calificaciones.destroy');
+    Route::get('calificaciones/{matricula}', [CalificacionController::class, 'show'])->name('calificaciones.show');
 
     Route::get('/asignaciones', [AsignaturaGradoController::class, 'index'])->name('asignaciones.index');
     Route::get('/grados/{grado}/asignaturas', [AsignaturaGradoController::class, 'edit'])->name('grados.asignaturas.edit');

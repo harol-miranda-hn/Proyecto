@@ -1,41 +1,65 @@
-<x-app-layout>
-    <div class="max-w-3xl mx-auto py-10 sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-xl sm:rounded-lg p-6">
-            <h2 class="text-xl font-bold mb-6 text-gray-900">
-                Asignar Asignaturas al Grado:
-                <span class="text-blue-600">{{ $grado->curso }} - Sección {{ $grado->seccion }} ({{ $grado->jornada }})</span>
-            </h2>
+<x-guest-layout>
+    <div class="container py-4">
 
+        <!-- Encabezado -->
+        <div class="bg-primary bg-gradient text-white rounded-3 p-3 mb-4 d-flex flex-wrap align-items-start gap-3">
+            <div class="rounded-circle bg-white bg-opacity-25 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                <i class="fas fa-book fs-5"></i>
+            </div>
+            <div class="flex-grow-1">
+                <h2 class="h6 mb-1">Asignar Asignaturas</h2>
+                <p class="mb-0 small">Seleccione las asignaturas que desea asociar al grado</p>
+            </div>
+        </div>
+
+        <!-- Formulario -->
+        <div class="bg-white rounded-3 shadow-sm p-4">
             <form method="POST" action="{{ route('grados.asignaturas.update', $grado->id) }}">
                 @csrf
                 @method('PUT')
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
-                    @foreach($asignaturas as $asignatura)
-                        <label class="flex items-center space-x-2">
-                            <input
-                                type="checkbox"
-                                name="asignaturas[]"
-                                value="{{ $asignatura->id }}"
-                                @if($grado->asignaturas->contains($asignatura->id)) checked @endif
-                                class="text-blue-600 focus:ring-blue-500"
-                            >
-                            <span>{{ $asignatura->nombre }}</span>
-                        </label>
-                    @endforeach
+                <!-- Información del Grado -->
+                <div class="mb-4 border-bottom pb-3">
+                    <div class="d-flex align-items-center text-primary mb-3">
+                        <div class="bg-light rounded-circle d-flex justify-content-center align-items-center me-2" style="width: 32px; height: 32px;">
+                            <i class="fas fa-layer-group small"></i>
+                        </div>
+                        <h5 class="mb-0">
+                            {{ $grado->curso }} - Sección {{ $grado->seccion }} ({{ $grado->jornada }})
+                        </h5>
+                    </div>
+
+                    <div class="row g-3">
+                        @foreach($asignaturas as $asignatura)
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        name="asignaturas[]"
+                                        value="{{ $asignatura->id }}"
+                                        id="asig{{ $asignatura->id }}"
+                                        @if($grado->asignaturas->contains($asignatura->id)) checked @endif
+                                    >
+                                    <label class="form-check-label" for="asig{{ $asignatura->id }}">
+                                        {{ $asignatura->nombre }}
+                                    </label>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
 
-                <div class="flex justify-end space-x-3">
-                    <a href="{{ route('asignaciones.index') }}"
-                       class="bg-gray-300 text-gray-800 px-4 py-2 rounded hover:bg-gray-400">
-                        Cancelar
+                <!-- Botones -->
+                <div class="d-flex flex-column flex-sm-row justify-content-end gap-2 mt-4">
+                    <a href="{{ route('asignaciones.index') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Cancelar
                     </a>
-                    <button type="submit"
-                            class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                        Guardar Asignaciones
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Guardar Asignaciones
                     </button>
                 </div>
             </form>
         </div>
     </div>
-</x-app-layout>
+</x-guest-layout>

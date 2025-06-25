@@ -2,7 +2,7 @@
 <div class="mb-3">
     <small class="text-uppercase text-secondary fw-bold px-2">General</small>
     <nav class="nav flex-column">
-        <a href="{{ route('dashboard') }}" class="nav-link text-white sidebar-link" data-bs-dismiss="offcanvas">
+        <a href="{{ route('dashboard') }}" class="nav-link text-white sidebar-link" onclick="closeSidebar()">
             <i class="fas fa-tachometer-alt me-2"></i> Inicio
         </a>
     </nav>
@@ -22,7 +22,7 @@
             <i class="fas fa-file-signature me-2"></i> Matrícula
         </a>
         <a href="{{ route('asignaturas.index') }}" class="nav-link text-white sidebar-link" onclick="closeSidebar()">
-            <i class="fas fa-book-open me-2"></i> Asignaturas
+            <i class="fas fa-book me-2"></i> Asignaturas
         </a>
         <a href="{{ route('calificaciones.index') }}" class="nav-link text-white sidebar-link" onclick="closeSidebar()">
             <i class="fas fa-graduation-cap me-2"></i> Calificaciones

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Calificacion;
 use App\Models\Grado;
 use Illuminate\Http\Request;
 
@@ -117,11 +118,15 @@ class GradoController extends Controller
         $grado = Grado::findOrFail($id);
 
         $tieneMatriculas = $grado->matriculas()->exists();
-        $tieneCalificaciones = $grado->calificaciones()->exists();
         $tieneAsignaturas = $grado->asignaturas()->exists();
 
+        // Verificar si existen calificaciones a través de las matrículas asociadas al grado
+        $tieneCalificaciones = Calificacion::whereHas('matricula', function ($query) use ($grado) {
+            $query->where('grado_id', $grado->id);
+        })->exists();
+
         if ($tieneMatriculas || $tieneCalificaciones || $tieneAsignaturas) {
-            return redirect()->route('grados.index')->with('error', 'No se puede eliminar el grado porque está asociado a otras tablas.');
+            return redirect()->route('grados.index')->with('error', 'No se puede eliminar el grado porque tiene clases asociadas o alumnos matriculados.');
         }
 
         $grado->delete();

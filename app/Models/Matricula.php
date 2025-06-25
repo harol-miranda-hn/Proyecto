@@ -25,4 +25,10 @@ class Matricula extends Model
     {
         return $this->belongsTo(Grado::class);
     }
+
+    public function calificaciones()
+    {
+        return $this->hasMany(Calificacion::class);
+    }
+
 }

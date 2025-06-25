@@ -5,7 +5,7 @@
         <div class="bg-warning bg-gradient text-white rounded-3 p-3 mb-4 d-flex align-items-start gap-3">
             <div class="rounded-circle bg-white bg-opacity-25 d-flex align-items-center justify-content-center"
                  style="width: 48px; height: 48px;">
-                <i class="fas fa-book-open fs-5"></i>
+                <i class="fas fa-book fs-5"></i>
             </div>
             <div class="flex-grow-1">
                 <h2 class="h6 mb-1">Editar Asignatura</h2>

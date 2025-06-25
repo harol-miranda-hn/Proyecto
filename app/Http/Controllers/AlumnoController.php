@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alumno;
+use App\Models\Calificacion;
 use Illuminate\Http\Request;
 
 class AlumnoController extends Controller
@@ -180,17 +181,22 @@ class AlumnoController extends Controller
     {
         $alumno = Alumno::findOrFail($id);
 
-        // Validar referencias
-        $tieneCalificaciones = $alumno->calificaciones()->exists();
+        // Verificar si tiene matrículas
         $tieneMatriculas = $alumno->matriculas()->exists();
 
+        // Verificar si tiene calificaciones a través de las matrículas
+        $tieneCalificaciones = Calificacion::whereHas('matricula', function ($query) use ($alumno) {
+            $query->where('alumno_id', $alumno->id);
+        })->exists();
+
         if ($tieneCalificaciones || $tieneMatriculas) {
-            return redirect()->route('alumnos.index')->with('error', 'No se puede eliminar el alumno porque está asociado a otras tablas.');
+            return redirect()->route('alumnos.index')->with('error', 'No se puede eliminar el alumno porque está matriculado ó tiene calificaciones activas.');
         }
 
         $alumno->delete();
 
         return redirect()->route('alumnos.index')->with('status', 'Alumno eliminado correctamente.');
     }
+
 
 }

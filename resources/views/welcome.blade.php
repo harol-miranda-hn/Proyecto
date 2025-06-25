@@ -667,8 +667,10 @@
         <div class="logo-text">Instituto Técnico Danlí</div>
     </div>
 
-    <a href="{{ route('login') }}" class="login-btn">Acceder
+    <a href="{{ auth()->check() ? route('dashboard') : route('login') }}" class="login-btn">
+        {{ auth()->check() ? 'Inicio' : 'Acceder' }}
     </a>
+
 </header>
 
 <!-- Hero Section -->
@@ -810,14 +812,14 @@
             <h3>Contacto</h3>
             <ul class="footer-links">
                 <li><a href="#"><i class="fas fa-map-marker-alt"></i> Colonia Nueva Esperanza, Danlí.</a></li>
-                <li><a href="#"><i class="fas fa-phone"></i> (504) #### - ####</a></li>
-                <li><a href="#"><i class="fas fa-envelope"></i> info@controlestudiantil.edu</a></li>
+                <li><a href="#"><i class="fas fa-phone"></i> (504) 9999 - 9999</a></li>
+                <li><a href="#"><i class="fas fa-envelope"></i> infor-itd@gmail.com</a></li>
                 <li><a href="#"><i class="fas fa-clock"></i> Lunes - Viernes: 08:00 AM - 05:00 PM</a></li>
             </ul>
         </div>
     </div>
 
-    <div class="copyright"><strong>&copy; 2025 Sistema de Control Estudiantil ITD. Todos los derechos reservados.</strong> v.0.0.1
+    <div class="copyright"><strong>&copy; 2025 Instituto Técnico Danlí. Todos los derechos reservados.</strong> v.0.0.1
     </div>
 </footer>
 
