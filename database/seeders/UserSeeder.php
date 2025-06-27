@@ -9,28 +9,32 @@ class UserSeeder extends Seeder
 {
     public function run(): void
     {
-        // Crear un estudiante
         User::create([
             'name' => 'Administrador',
             'email' => 'admin@admin.com',
             'password' => bcrypt('password'),
-            'role' => 'profesor',
+            'role' => 'administrador',
         ]);
 
-        // Crear un estudiante
+        User::create([
+            'name' => 'Super Administrador',
+            'email' => 'superadmin@supeadmin.com',
+            'password' => bcrypt('password'),
+            'role' => 'superadmin',
+        ]);
+
         User::create([
             'name' => 'Katherine Cálix',
             'email' => 'katherinecalix@admin.com',
             'password' => bcrypt('password'),
-            'role' => 'estudiante',
+            'role' => 'administrador',
         ]);
 
-        // Crear un profesor
         User::create([
-            'name' => 'Msc. Jairo Martinez',
-            'email' => 'profesor1@example.com',
+            'name' => 'Lic. Harol Miranda',
+            'email' => 'harolenocmiranda@gmail.com',
             'password' => bcrypt('password'),
-            'role' => 'profesor',
+            'role' => 'superadmin',
         ]);
     }
 }

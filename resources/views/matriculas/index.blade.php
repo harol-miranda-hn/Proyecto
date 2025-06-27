@@ -56,9 +56,7 @@
                         <tr>
                             <th style="width: 50px;">N°</th>
                             <th class="text-start">Alumno</th>
-                            <th class="text-start">Curso</th>
-                            <th class="text-start">Modalidad</th>
-                            <th class="text-start">Jornada</th>
+                            <th class="text-start">Grado</th>
                             <th class="text-start">Fecha</th>
                             <th>Acciones</th>
                         </tr>
@@ -67,13 +65,33 @@
                         @foreach($matriculas as $index => $matricula)
                             <tr>
                                 <td>{{ $matriculas->firstItem() + $index }}</td>
-                                <td class="text-start fw-semibold">{{ $matricula->alumno->nombre_completo }}</td>
-                                <td class="text-start">{{ $matricula->grado->curso }}</td>
-                                <td class="text-start">{{ $matricula->grado->modalidad }}</td>
-                                <td class="text-start">{{ $matricula->grado->jornada }}</td>
-                                <td class="text-start">
-                                    {{ strtoupper(\Carbon\Carbon::parse($matricula->fecha_matricula)->format('d-M-Y')) }}
+                                <td class="text-start fw-semibold small">
+                                    {{ $matricula->alumno->nombre_completo }}
                                 </td>
+
+                                <td class="text-start small">
+                                    @php
+                                        $curso = $matricula->grado->curso ?? 'N/D';
+                                        $modalidadOriginal = $matricula->grado->modalidad ?? '';
+                                        $modalidad = match (true) {
+                                            str_contains(strtolower($modalidadOriginal), 'informática con orientación a robótica') => 'BTP en Robótica',
+                                            str_contains(strtolower($modalidadOriginal), 'informática') => 'BTP en Informática',
+                                            default => $modalidadOriginal,
+                                        };
+                                        $seccion = $matricula->grado->seccion ?? '';
+                                        $jornada = $matricula->grado->jornada ?? '';
+                                    @endphp
+
+                                    {{ $curso }} de {{ $modalidad }} <strong>'{{ $seccion }}'</strong> ({{ $jornada }})
+                                </td>
+
+
+                                <td class="text-start">
+                                    <span class="badge bg-light text-dark small">
+                                        {{ \Carbon\Carbon::parse($matricula->fecha_matricula)->locale('es')->translatedFormat('d \d\e F, Y') }}
+                                    </span>
+                                </td>
+
                                 <td>
                                     <div class="d-flex justify-content-center gap-2">
                                         <a href="{{ route('matriculas.show', $matricula->id) }}" class="btn btn-sm text-white rounded-circle" style="background-color: #0288d1;" title="Ver">

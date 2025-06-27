@@ -25,7 +25,7 @@ class UserController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
             'password' => 'required|min:8|confirmed',
-            'role' => 'required|in:estudiante,profesor',
+            'role' => 'required|in:estudiante,profesor,administrador,superadmin',
         ], [
             'name.required' => 'El nombre es obligatorio.',
             'name.string' => 'El nombre debe ser una cadena de texto.',
@@ -37,7 +37,7 @@ class UserController extends Controller
             'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
             'password.confirmed' => 'Las contraseñas no coinciden.',
             'role.required' => 'El rol es obligatorio.',
-            'role.in' => 'Selecciona un rol válido (Estudiante o Profesor).',
+            'role.in' => 'Selecciona un rol válido.',
         ]);
 
         $user = User::create([
@@ -60,7 +60,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'role' => 'required|in:estudiante,profesor',
+            'role' => 'required|in:estudiante,profesor,administrador,superadmin',
         ], [
             'name.required' => 'El nombre es obligatorio.',
             'name.string' => 'El nombre debe ser una cadena de texto.',
@@ -69,7 +69,7 @@ class UserController extends Controller
             'email.email' => 'Por favor ingrese un correo electrónico válido.',
             'email.unique' => 'Este correo electrónico ya está en uso.',
             'role.required' => 'El rol es obligatorio.',
-            'role.in' => 'Selecciona un rol válido (Estudiante o Profesor).',
+            'role.in' => 'Selecciona un rol válido.',
         ]);
 
         $user->update([
@@ -103,5 +103,4 @@ class UserController extends Controller
         // Redirigir con mensaje de éxito
         return redirect()->route('users.index')->with('status', 'Usuario eliminado exitosamente.');
     }
-
 }

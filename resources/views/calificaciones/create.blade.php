@@ -21,6 +21,9 @@
             </div>
         @endif
 
+        <div id="errorContainer" class="alert alert-danger d-none">
+            <ul id="errorList" class="mb-0 small"></ul>
+        </div>
 
         <!-- Formulario -->
         <div class="bg-white shadow-sm rounded-3 p-4">
@@ -207,7 +210,48 @@
 
             if (!valido) {
                 e.preventDefault();
-                alert("⚠️ Debes ingresar al menos una nota por asignatura.");
+                form.addEventListener('submit', function (e) {
+                    const rows = form.querySelectorAll('#tablaCalificaciones tr');
+                    let valido = true;
+                    const errorContainer = document.getElementById('errorContainer');
+                    const errorList = document.getElementById('errorList');
+                    errorList.innerHTML = '';
+
+                    rows.forEach((row, i) => {
+                        const inputs = Array.from(row.querySelectorAll('.parcial'));
+                        const notasLlenas = inputs.filter(input => input.value.trim() !== '');
+                        let rowValida = false;
+
+                        if (notasLlenas.length === 0) {
+                            rowValida = false;
+                        } else {
+                            rowValida = notasLlenas.every(input => {
+                                const val = input.value.trim().toUpperCase();
+                                return (
+                                    val === 'NSP' ||
+                                    (!isNaN(val) && Number(val) >= 0 && Number(val) <= 100)
+                                );
+                            });
+                        }
+
+                        if (!rowValida) {
+                            valido = false;
+                            row.classList.add('table-danger');
+                            errorList.innerHTML += `<li>Fila ${i + 1}: Las notas deben ser entre 0 y 100, o "NSP"</li>`;
+                        } else {
+                            row.classList.remove('table-danger');
+                        }
+                    });
+
+                    if (!valido) {
+                        e.preventDefault();
+                        errorContainer.classList.remove('d-none');
+                        errorContainer.scrollIntoView({ behavior: 'smooth' });
+                    } else {
+                        errorContainer.classList.add('d-none');
+                    }
+                });
+
             }
         });
 

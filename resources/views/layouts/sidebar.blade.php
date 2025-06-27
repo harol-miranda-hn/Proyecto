@@ -14,18 +14,20 @@
         <a href="{{ route('grados.index') }}" class="nav-link text-white sidebar-link" onclick="closeSidebar()" >
             <i class="fas fa-chalkboard-teacher me-2"></i> Grados
         </a>
-
         <a href="{{ route('alumnos.index') }}" class="nav-link text-white sidebar-link" onclick="closeSidebar()">
             <i class="fas fa-user-graduate  me-2"></i> Alumnos
         </a>
         <a href="{{ route('matriculas.index') }}" class="nav-link text-white sidebar-link" onclick="closeSidebar()">
-            <i class="fas fa-file-signature me-2"></i> Matrícula
+            <i class="fas fa-file-signature me-2"></i> Matrículas
         </a>
         <a href="{{ route('asignaturas.index') }}" class="nav-link text-white sidebar-link" onclick="closeSidebar()">
             <i class="fas fa-book me-2"></i> Asignaturas
         </a>
         <a href="{{ route('calificaciones.index') }}" class="nav-link text-white sidebar-link" onclick="closeSidebar()">
             <i class="fas fa-graduation-cap me-2"></i> Calificaciones
+        </a>
+        <a href="{{ route('asistencias.index') }}" class="nav-link text-white sidebar-link" onclick="closeSidebar()">
+            <i class="fas fa-graduation-cap me-2"></i> Asistencias
         </a>
     </nav>
 </div>

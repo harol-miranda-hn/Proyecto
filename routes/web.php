@@ -13,6 +13,7 @@ use App\Http\Controllers\AsignaturaController;
 use App\Http\Controllers\CalificacionController;
 use App\Http\Controllers\AsignaturaGradoController;
 use App\Http\Controllers\MatriculaController;
+use App\Http\Controllers\AsistenciaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,7 +53,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/proyectos/{project}', [ProjectController::class, 'show'])->name('projects.show'); // Mostrar un proyecto específico
     Route::get('/proyectos/{project}/editar', [ProjectController::class, 'edit'])->name('projects.edit'); // Formulario para editar un proyecto
     Route::put('/proyectos/{project}', [ProjectController::class, 'update'])->name('projects.update'); // Actualizar un proyecto existente
-    Route::delete('/projects/{id}', [CommentController::class, 'destroy'])->name('comments.destroy'); // Eliminar un comentario
+    Route::delete('/projects/{id}', [ProjectController::class, 'destroy'])->name('projects.destroy'); // Eliminar un proyecto
 
     Route::get('/comentarios', [CommentController::class, 'index'])->name('comments.index'); // Mostrar todos los comentarios
     Route::get('/comentarios/crear', [CommentController::class, 'create'])->name('comments.create'); // Formulario para crear un nuevo comentario
@@ -62,7 +63,6 @@ Route::middleware('auth')->group(function () {
     Route::put('/comentarios/{comment}', [CommentController::class, 'update'])->name('comments.update'); // Actualizar un comentario
     Route::delete('/comments/{id}', [CommentController::class, 'destroy'])->name('comments.destroy'); // Eliminar un comentario
 
-    // Rutas para archivos
     Route::get('/archivos', [FileController::class, 'index'])->name('files.index'); // Listar archivos
     Route::get('/archivos/crear', [FileController::class, 'create'])->name('files.create'); // Formulario para crear archivo
     Route::post('/archivos', [FileController::class, 'store'])->name('files.store'); // Subir archivo
@@ -103,40 +103,41 @@ Route::middleware('auth')->group(function () {
     Route::get('calificaciones/{matricula}', [CalificacionController::class, 'show'])->name('calificaciones.show');
 
     Route::get('/asignaciones', [AsignaturaGradoController::class, 'index'])->name('asignaciones.index');
+
     Route::get('/grados/{grado}/asignaturas', [AsignaturaGradoController::class, 'edit'])->name('grados.asignaturas.edit');
     Route::put('/grados/{grado}/asignaturas', [AsignaturaGradoController::class, 'update'])->name('grados.asignaturas.update');
-
-    // Mostrar formulario para asignar asignaturas a un grado
     Route::get('/grados/{grado}/asignaturas', [AsignaturaGradoController::class, 'edit'])->name('grados.asignaturas.edit');
-
-    // Guardar asignaturas asignadas a un grado
     Route::post('/grados/{grado}/asignaturas', [AsignaturaGradoController::class, 'update'])->name('grados.asignaturas.update');
 
+    Route::get('/asistencias', [AsistenciaController::class, 'index'])->name('asistencias.index');
+    Route::get('/asistencias/crear', [AsistenciaController::class, 'create'])->name('asistencias.create');
+    Route::post('/asistencias', [AsistenciaController::class, 'store'])->name('asistencias.store');
+    Route::get('/asistencias/{asistencia}', [AsistenciaController::class, 'show'])->name('asistencias.show');
+    Route::get('/asistencias/{asistencia}/editar', [AsistenciaController::class, 'edit'])->name('asistencias.edit');
+    Route::put('/asistencias/{asistencia}', [AsistenciaController::class, 'update'])->name('asistencias.update');
+    Route::delete('/asistencias/{asistencia}', [AsistenciaController::class, 'destroy'])->name('asistencias.destroy');
+
+    Route::get('/api/grados/{grado}/alumnos', function ($gradoId) {
+        $alumnos = \App\Models\Alumno::whereHas('matriculas', function ($query) use ($gradoId) {
+            $query->where('grado_id', $gradoId);
+        })
+            ->orderByRaw("CASE genero WHEN 'M' THEN 0 WHEN 'F' THEN 1 ELSE 2 END")
+            ->orderBy('nombre_completo')
+            ->get(['id', 'nombre_completo']);
+
+        return response()->json($alumnos);
+    });
+
     Route::resource('matriculas', MatriculaController::class);
-
-
-    // Mostrar formulario para matricular alumnos en un grado
     Route::get('/matriculas/create', [MatriculaController::class, 'create'])->name('matriculas.create');
-
-    // Guardar la matrícula
     Route::post('/matriculas', [MatriculaController::class, 'store'])->name('matriculas.store');
-
-    // Listar matrículas existentes
     Route::get('/matriculas', [MatriculaController::class, 'index'])->name('matriculas.index');
-
-    // Ver detalles de una matrícula
     Route::get('/matriculas/{matricula}', [MatriculaController::class, 'show'])->name('matriculas.show');
-
-    // Editar una matrícula (por si hay cambio de grado, etc.)
     Route::get('/matriculas/{matricula}/editar', [MatriculaController::class, 'edit'])->name('matriculas.edit');
     Route::put('/matriculas/{matricula}', [MatriculaController::class, 'update'])->name('matriculas.update');
-
-    // Eliminar una matrícula
     Route::delete('/matriculas/{matricula}', [MatriculaController::class, 'destroy'])->name('matriculas.destroy');
 
-    //Ver calificaciones por alumno y grado
     Route::get('/alumnos/{alumno}/calificaciones/{grado}', [CalificacionController::class, 'verPorAlumnoYGrado'])->name('calificaciones.alumno.grado');
-
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 });
 

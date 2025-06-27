@@ -50,7 +50,7 @@ class CommentController extends Controller
 
         // Crear el comentario
         $comment = Comment::create([
-            'content' => $request->content,
+            'content' => $request['content'],
             'user_id' => auth()->id(),
             'project_id' => $request->project_id,
         ]);
@@ -101,7 +101,8 @@ class CommentController extends Controller
 
         // Actualizar el comentario con los nuevos datos
         $comment->update([
-            'content' => $request->content
+
+            'content' => $request['content'],
         ]);
 
         // Redirigir con un mensaje de éxito

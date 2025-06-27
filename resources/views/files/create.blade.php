@@ -1,74 +1,69 @@
-<x-app-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
+<x-guest-layout>
+    <div class="container py-4">
 
-                    <!-- Título de la Sección -->
-                    <div class="mb-6">
-                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ __('SUBIR ARCHIVO') }}</h3>
-                        <p class="text-gray-600 dark:text-gray-300">{{ __('Selecciona un proyecto y adjunta el archivo correspondiente') }}</p>
-                        <hr>
-                    </div>
-
-                    <!-- Mensaje de Éxito -->
-                    @if(session('status'))
-                        <div class="mb-4 p-4 bg-green-100 text-green-700 rounded">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <!-- Formulario Subir Archivo -->
-                    <form action="{{ route('files.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
-
-                        <!-- Selección del Proyecto -->
-                        <div class="mb-6">
-                            <label for="project_id" class="block text-gray-700 dark:text-gray-300 font-medium">{{ __('Proyecto') }}</label>
-                            <select name="project_id" id="project_id" class="mt-1 block w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                                <option value="">{{ __('Seleccionar proyecto') }}</option>
-                                @foreach($projects as $project)
-                                    <option value="{{ $project->id }}" {{ old('project_id') == $project->id ? 'selected' : '' }}>{{ $project->name }}</option>
-                                @endforeach
-                            </select>
-                            @error('project_id')
-                            <div class="text-red-600 text-sm mt-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <!-- Nombre del Archivo -->
-                        <div class="mb-6">
-                            <label for="name" class="block text-gray-700 dark:text-gray-300 font-medium">{{ __('Nombre del Archivo') }}</label>
-                            <input type="text" name="name" id="name" value="{{ old('name') }}" class="mt-1 block w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                            @error('name')
-                            <div class="text-red-600 text-sm mt-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <!-- Campo para Subir el Archivo -->
-                        <div class="mb-6">
-                            <label for="file" class="block text-gray-700 dark:text-gray-300 font-medium">{{ __('Archivo') }}</label>
-                            <input type="file" name="file" id="file" class="mt-1 block w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                            @error('file')
-                            <div class="text-red-600 text-sm mt-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <!-- Botones de Acción -->
-                        <div class="flex space-x-4">
-                            <!-- Botón Regresar -->
-                            <a href="{{ route('projects.index') }}" class="w-1/2 bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center transition-all">
-                                {{ __('REGRESAR') }}
-                            </a>
-
-                            <!-- Botón Subir Archivo -->
-                            <button type="submit" class="w-1/2 bg-yellow-500 text-white py-3 px-6 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 text-center transition-all">
-                                {{ __('SUBIR ARCHIVO') }}
-                            </button>
-                        </div>
-                    </form>
-                </div>
+        <!-- Encabezado del formulario -->
+        <div class="bg-primary bg-gradient text-white rounded-3 p-3 mb-4 d-flex flex-wrap align-items-start gap-3">
+            <div class="rounded-circle bg-white bg-opacity-25 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                <i class="fas fa-upload fs-5"></i>
+            </div>
+            <div class="flex-grow-1">
+                <h2 class="h6 mb-1">Subir Archivo</h2>
+                <p class="mb-0 small">Selecciona un proyecto y adjunta el archivo correspondiente</p>
             </div>
         </div>
+
+        <!-- Contenedor del formulario -->
+        <div class="bg-white rounded-3 shadow-sm p-4">
+            @if(session('status'))
+                <div class="alert alert-success small">{{ session('status') }}</div>
+            @endif
+
+            <form action="{{ route('files.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+
+                <div class="row g-3 mb-4">
+                    <!-- Proyecto -->
+                    <div class="col-md-6">
+                        <label for="project_id" class="form-label">Proyecto *</label>
+                        <select class="form-select" id="project_id" name="project_id">
+                            <option value="">Seleccionar proyecto</option>
+                            @foreach($projects as $project)
+                                <option value="{{ $project->id }}" {{ old('project_id') == $project->id ? 'selected' : '' }}>
+                                    {{ $project->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('project_id') <div class="text-danger small">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Nombre del archivo -->
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Nombre del Archivo *</label>
+                        <input type="text" class="form-control" id="name" name="name" value="{{ old('name') }}" placeholder="Ej: Informe final del proyecto">
+                        @error('name') <div class="text-danger small">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+
+                <!-- Archivo -->
+                <div class="mb-4">
+                    <label for="file" class="form-label">Archivo *</label>
+                    <input type="file" class="form-control" id="file" name="file">
+                    @error('file') <div class="text-danger small">{{ $message }}</div> @enderror
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex flex-column flex-sm-row justify-content-end gap-2 mt-4">
+                    <a href="{{ route('projects.index') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Cancelar
+                    </a>
+                    <button type="reset" class="btn btn-warning text-white">
+                        <i class="fas fa-broom me-1"></i> Limpiar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-upload me-1"></i> Subir Archivo
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-</x-app-layout>
+</x-guest-layout>

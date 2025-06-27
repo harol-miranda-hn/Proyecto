@@ -1,91 +1,135 @@
-<x-app-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-
-                    <!-- Título de la Sección -->
-                    <div class="mb-6">
-                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ __('REGISTRAR USUARIO') }}</h3>
-                        <p class="text-gray-600 dark:text-gray-300">{{ __('Registra la información completa del usuario') }}</p>
-                        <hr>
-                    </div>
-
-                    <!-- Mensaje de Éxito -->
-                    @if(session('status'))
-                        <div class="mb-4 p-4 bg-green-100 text-green-700 rounded">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <!-- Formulario Crear Usuario -->
-                    <form action="{{ route('users.store') }}" method="POST">
-                        @csrf
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <!-- Nombre -->
-                            <div>
-                                <label for="name" class="block text-gray-700 dark:text-gray-300 font-medium">{{ __('Nombre') }}</label>
-                                <input type="text" name="name" id="name" value="{{ old('name') }}" class="mt-1 block w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                                @error('name')
-                                <div class="text-red-600 text-sm mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- Rol -->
-                            <div>
-                                <label for="role" class="block text-gray-700 dark:text-gray-300 font-medium">{{ __('Rol') }}</label>
-                                <select name="role" id="role" class="mt-1 block w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                                    <option value="estudiante" {{ old('role') == 'estudiante' ? 'selected' : '' }}>{{ __('Estudiante') }}</option>
-                                    <option value="profesor" {{ old('role') == 'profesor' ? 'selected' : '' }}>{{ __('Profesor') }}</option>
-                                </select>
-                                @error('role')
-                                <div class="text-red-600 text-sm mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <!-- Correo Electrónico -->
-                        <div class="mb-6">
-                            <label for="email" class="block text-gray-700 dark:text-gray-300 font-medium">{{ __('Correo Electrónico') }}</label>
-                            <input type="email" name="email" id="email" value="{{ old('email') }}" class="mt-1 block w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                            @error('email')
-                            <div class="text-red-600 text-sm mt-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-                            <!-- Contraseña -->
-                            <div>
-                                <label for="password" class="block text-gray-700 dark:text-gray-300 font-medium">{{ __('Contraseña') }}</label>
-                                <input type="password" name="password" id="password" class="mt-1 block w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                                @error('password')
-                                <div class="text-red-600 text-sm mt-2">{{ $message }}</div>
-                                @enderror
-                            </div>
-
-                            <!-- Confirmar Contraseña -->
-                            <div>
-                                <label for="password_confirmation" class="block text-gray-700 dark:text-gray-300 font-medium">{{ __('Confirmar Contraseña') }}</label>
-                                <input type="password" name="password_confirmation" id="password_confirmation" class="mt-1 block w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400">
-                            </div>
-                        </div>
-
-                        <!-- Contenedor para los botones -->
-                        <div class="flex space-x-4">
-                            <!-- Botón Regresar -->
-                            <a href="{{ route('users.index') }}" class="w-1/2 bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center transition-all">
-                                {{ __('REGRESAR') }}
-                            </a>
-
-                            <!-- Botón Crear Usuario -->
-                            <button type="submit" class="w-1/2 bg-yellow-500 text-white py-3 px-6 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 text-center transition-all">
-                                {{ __('REGISTRAR') }}
-                            </button>
-                        </div>
-
-                    </form>
-                </div>
+<x-guest-layout>
+    <div class="container py-4">
+        <!-- Encabezado -->
+        <div class="bg-primary bg-gradient text-white rounded-3 p-3 mb-4 d-flex align-items-start gap-3 flex-wrap">
+            <div class="rounded-circle bg-white bg-opacity-25 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                <i class="fas fa-user-cog fs-5"></i>
+            </div>
+            <div>
+                <h2 class="h6 mb-1">Registrar Usuario</h2>
+                <p class="mb-0 small">Complete la información para crear un nuevo usuario.</p>
             </div>
         </div>
+
+        <!-- Formulario -->
+        <div class="bg-white rounded-3 shadow-sm p-4">
+            <form action="{{ route('users.store') }}" method="POST" id="userForm">
+                @csrf
+
+                <div class="row g-3 mb-4">
+                    <!-- Nombre -->
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Nombre Completo *</label>
+                        <input type="text" id="name" name="name" class="form-control" placeholder="Ej: María López" value="{{ old('name') }}">
+                        @error('name') <div class="text-danger small">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Correo -->
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Correo Electrónico *</label>
+                        <div class="input-group">
+                            <input type="email" id="email" name="email" class="form-control" placeholder="usuario@correo.com" value="{{ old('email') }}">
+                            <span class="input-group-text"><i class="fas fa-envelope text-muted"></i></span>
+                        </div>
+                        @error('email') <div class="text-danger small">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Rol -->
+                    <div class="col-md-6">
+                        <label for="role" class="form-label">Rol *</label>
+                        <select id="role" name="role" class="form-select">
+                            <option value="">Seleccione...</option>
+                            <option value="estudiante" {{ old('role') == 'estudiante' ? 'selected' : '' }}>Estudiante</option>
+                            <option value="profesor" {{ old('role') == 'profesor' ? 'selected' : '' }}>Profesor</option>
+                            <option value="administrador" {{ old('role') == 'administrador' ? 'selected' : '' }}>Administrador</option>
+                            <option value="superadmin" {{ old('role') == 'superadmin' ? 'selected' : '' }}>Super Administrador</option>
+
+                        </select>
+                        @error('role') <div class="text-danger small">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div class="col-md-6">
+                        <label for="password" class="form-label">Contraseña *</label>
+                        <div class="input-group">
+                            <input type="password" id="password" name="password" class="form-control" placeholder="********">
+                            <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('password')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        @error('password') <div class="text-danger small">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Confirmar Contraseña -->
+                    <div class="col-md-6">
+                        <label for="password_confirmation" class="form-label">Confirmar Contraseña *</label>
+                        <div class="input-group">
+                            <input type="password" id="password_confirmation" name="password_confirmation" class="form-control" placeholder="********">
+                            <button type="button" class="btn btn-outline-secondary" onclick="togglePassword('password_confirmation')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex flex-column flex-sm-row justify-content-end gap-2 mt-4">
+                    <a href="{{ route('users.index') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-times me-1"></i> Cancelar
+                    </a>
+                    <button type="reset" class="btn btn-warning text-white">
+                        <i class="fas fa-broom me-1"></i> Limpiar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-user-plus me-1"></i> Registrar Usuario
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-</x-app-layout>
+
+    <!-- Scripts -->
+    <script>
+        // Mostrar/ocultar contraseña
+        function togglePassword(id) {
+            const input = document.getElementById(id);
+            const icon = event.currentTarget.querySelector('i');
+
+            if (input.type === "password") {
+                input.type = "text";
+                icon.classList.remove("fa-eye");
+                icon.classList.add("fa-eye-slash");
+            } else {
+                input.type = "password";
+                icon.classList.remove("fa-eye-slash");
+                icon.classList.add("fa-eye");
+            }
+        }
+
+        // Formato de nombre completo
+        function formatFullName(input) {
+            const caret = input.selectionStart;
+            let text = input.value;
+
+            text = text
+                .replace(/[0-9]/g, '')
+                .replace(/[^\p{L}\s]/gu, '')
+                .replace(/\s{2,}/g, ' ');
+
+            text = text.replace(/\b(\p{L})(\p{L}*)\b/gu, (match, first, rest) =>
+                first.toUpperCase() + rest.toLowerCase()
+            );
+
+            input.value = text.slice(0, 60);
+            input.setSelectionRange(caret, caret);
+        }
+
+        // Activar formato al escribir
+        document.addEventListener('DOMContentLoaded', () => {
+            const nameInput = document.getElementById('name');
+            if (nameInput) {
+                nameInput.addEventListener('input', () => formatFullName(nameInput));
+            }
+        });
+    </script>
+</x-guest-layout>

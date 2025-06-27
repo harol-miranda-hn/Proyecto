@@ -177,29 +177,59 @@
             const caret = input.selectionStart;
             let text = input.value;
 
+            // Limpieza: números y símbolos no letras
             text = text
-                .replace(/[0-9]/g, '')
-                .replace(/[^À-ſa-zA-Z\s]/g, '')
-                .replace(/\s{2,}/g, ' ');
+                .replace(/[0-9]/g, '')               // elimina números
+                .replace(/[^\p{L}\s]/gu, '')         // solo letras y espacios
+                .replace(/\s{2,}/g, ' ')             // múltiples espacios → uno
 
-            text = text.toLowerCase();
-            text = text.charAt(0).toUpperCase() + text.slice(1);
+            // Lista de vocales tildadas en minúscula
+            const tildedLower = ['á', 'é', 'í', 'ó', 'ú', 'Á', 'É', 'Í'];
+
+            // Capitalizar palabra por palabra
+            text = text.replace(/\b(\p{L})(\p{L}*)\b/gu, (match, first, rest) => {
+                const isTildedLower = tildedLower.includes(first);
+                const isTildedUpper = first.match(/[ÁÉÍÓÚ]/);
+
+                let capitalizedFirst;
+
+                if (isTildedUpper) {
+                    // Mantener vocal con tilde si ya fue escrita en mayúscula
+                    capitalizedFirst = first;
+                } else if (isTildedLower) {
+                    // Si fue minúscula con tilde, quitar tilde y pasar a mayúscula
+                    capitalizedFirst = first.normalize("NFD").replace(/[\u0300-\u036f]/g, '').toUpperCase();
+                } else {
+                    capitalizedFirst = first.toUpperCase();
+                }
+
+                return capitalizedFirst + rest.toLowerCase();
+            });
 
             input.value = text.slice(0, 60);
             input.setSelectionRange(caret, caret);
         }
 
-        function formatTextArea(input) {
+        function formatTextArea(input, capitalizarCadaPalabra = false) {
             const caret = input.selectionStart;
             let text = input.value;
 
+            // Limpieza: elimina múltiples espacios y caracteres no válidos, sin cambiar mayúsculas aún
             text = text
-                .replace(/\s{2,}/g, ' ')
-                .replace(/^[ ]+/, '')
-                .replace(/[^\p{L}\d\s.,:;()¿?¡!'"-]/gu, '')
-                .toLowerCase();
+                .replace(/\s{2,}/g, ' ') // múltiples espacios → uno
+                .replace(/^[ ]+/, '')    // sin espacios al inicio
+                .replace(/[^\p{L}\d\s.,:;()¿?¡!'"-]/gu, '') // solo letras, números y puntuación básica
 
-            text = text.charAt(0).toUpperCase() + text.slice(1);
+            if (capitalizarCadaPalabra) {
+                // Capitaliza la primera letra de cada palabra, sin modificar lo demás
+                text = text.replace(/\b(\p{L})(\p{L}*)\b/gu, (match, first, rest) =>
+                    first.toUpperCase() + rest.toLowerCase()
+                );
+            } else {
+                // Solo capitaliza la primera letra de la primera palabra; mantiene mayúsculas existentes
+                text = text.charAt(0).toUpperCase() + text.slice(1);
+            }
+
             input.value = text.slice(0, 255);
             input.setSelectionRange(caret, caret);
         }

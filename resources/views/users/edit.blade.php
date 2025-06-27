@@ -1,73 +1,93 @@
-<x-app-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900 dark:text-gray-100">
-                    <!-- Título de la Sección -->
-                    <div class="mb-6">
-                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ __('ACTUALIZAR USUARIO') }}</h3>
-                        <p class="text-gray-600 dark:text-gray-300">{{ __('Actualiza la información completa del usuario seleccionado') }}</p>
-                        <hr>
-                    </div>
+<x-guest-layout>
+    <div class="container py-4">
 
-                    <!-- Mensaje de Éxito -->
-                    @if(session('status'))
-                        <div class="mb-4 p-4 bg-green-100 text-green-700 rounded">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
-                    <!-- Formulario Editar Usuario -->
-                    <form action="{{ route('users.update', $user->id) }}" method="POST">
-                        @csrf
-                        @method('PUT')
-
-                        <!-- Nombre -->
-                        <div class="mb-6">
-                            <label for="name" class="block text-gray-700 dark:text-gray-300 font-medium">{{ __('Nombre') }}</label>
-                            <input type="text" name="name" id="name" value="{{ old('name', $user->name) }}" class="mt-1 block w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
-                            @error('name')
-                            <div class="text-red-600 text-sm mt-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <!-- Correo Electrónico -->
-                        <div class="mb-6">
-                            <label for="email" class="block text-gray-700 dark:text-gray-300 font-medium">{{ __('Correo Electrónico') }}</label>
-                            <input type="email" name="email" id="email" value="{{ old('email', $user->email) }}" class="mt-1 block w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
-                            @error('email')
-                            <div class="text-red-600 text-sm mt-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <!-- Rol -->
-                        <div class="mb-6">
-                            <label for="role" class="block text-gray-700 dark:text-gray-300 font-medium">{{ __('Rol') }}</label>
-                            <select name="role" id="role" class="mt-1 block w-full p-3 border border-gray-300 dark:border-gray-600 rounded-md text-gray-900 dark:text-gray-200 bg-white dark:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400" required>
-                                <option value="estudiante" {{ old('role', $user->role) == 'estudiante' ? 'selected' : '' }}>{{ __('Estudiante') }}</option>
-                                <option value="profesor" {{ old('role', $user->role) == 'profesor' ? 'selected' : '' }}>{{ __('Profesor') }}</option>
-                            </select>
-                            @error('role')
-                            <div class="text-red-600 text-sm mt-2">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <!-- Contenedor para los botones -->
-                        <div class="flex space-x-4">
-                            <!-- Botón Regresar -->
-                            <a href="{{ route('users.index') }}" class="w-1/2 bg-blue-600 text-white py-3 px-6 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-center transition-all">
-                                {{ __('REGRESAR') }}
-                            </a>
-
-                            <!-- Botón Actualizar Usuario -->
-                            <button type="submit" class="w-1/2 bg-yellow-500 text-white py-3 px-6 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 text-center transition-all">
-                                {{ __('ACTUALIZAR') }}
-                            </button>
-                        </div>
-
-                    </form>
-                </div>
+        <!-- Encabezado -->
+        <div class="bg-warning bg-gradient text-white rounded-3 p-3 mb-4 d-flex flex-wrap align-items-start gap-3">
+            <div class="rounded-circle bg-white bg-opacity-25 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                <i class="fas fa-user-cog fs-5"></i>
+            </div>
+            <div class="flex-grow-1">
+                <h2 class="h6 mb-1">Editar Usuario</h2>
+                <p class="mb-0 small">Modifique los campos necesarios y guarde los cambios.</p>
             </div>
         </div>
+
+        <!-- Formulario -->
+        <div class="bg-white rounded-3 shadow-sm p-4">
+            <form action="{{ route('users.update', $user->id) }}" method="POST" id="editUserForm">
+                @csrf
+                @method('PUT')
+
+                <div class="row g-3 mb-4">
+                    <!-- Nombre -->
+                    <div class="col-md-6">
+                        <label for="name" class="form-label">Nombre Completo *</label>
+                        <input type="text" id="name" name="name" class="form-control"
+                               value="{{ old('name', $user->name) }}" placeholder="Ej: María López">
+                        @error('name') <div class="text-danger small">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Correo -->
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Correo Electrónico *</label>
+                        <div class="input-group">
+                            <input type="email" id="email" name="email" class="form-control"
+                                   value="{{ old('email', $user->email) }}" placeholder="usuario@correo.com">
+                            <span class="input-group-text"><i class="fas fa-envelope text-muted"></i></span>
+                        </div>
+                        @error('email') <div class="text-danger small">{{ $message }}</div> @enderror
+                    </div>
+
+                    <!-- Rol -->
+                    <div class="col-md-6">
+                        <label for="role" class="form-label">Rol *</label>
+                        <select id="role" name="role" class="form-select">
+                            <option value="">Seleccione...</option>
+                            <option value="estudiante" {{ old('role', $user->role) == 'estudiante' ? 'selected' : '' }}>Estudiante</option>
+                            <option value="profesor" {{ old('role', $user->role) == 'profesor' ? 'selected' : '' }}>Profesor</option>
+                            <option value="administrador" {{ old('role', $user->role) == 'administrador' ? 'selected' : '' }}>Administrador</option>
+                            <option value="superadmin" {{ old('role', $user->role) == 'superadmin' ? 'selected' : '' }}>Super Administrador</option>
+                        </select>
+                        @error('role') <div class="text-danger small">{{ $message }}</div> @enderror
+                    </div>
+                </div>
+
+                <!-- Botones -->
+                <div class="d-flex flex-column flex-sm-row justify-content-end gap-2 mt-4">
+                    <a href="{{ route('users.index') }}" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Volver
+                    </a>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-1"></i> Guardar Cambios
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-</x-app-layout>
+
+    <script>
+        function formatFullName(input) {
+            const caret = input.selectionStart;
+            let text = input.value;
+
+            text = text
+                .replace(/[0-9]/g, '')
+                .replace(/[^\p{L}\s]/gu, '')
+                .replace(/\s{2,}/g, ' ');
+
+            text = text.replace(/\b(\p{L})(\p{L}*)\b/gu, (match, first, rest) =>
+                first.toUpperCase() + rest.toLowerCase()
+            );
+
+            input.value = text.slice(0, 60);
+            input.setSelectionRange(caret, caret);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const nameInput = document.getElementById('name');
+            if (nameInput) {
+                nameInput.addEventListener('input', () => formatFullName(nameInput));
+            }
+        });
+    </script>
+</x-guest-layout>

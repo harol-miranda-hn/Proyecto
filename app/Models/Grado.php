@@ -33,4 +33,10 @@ class Grado extends Model
     {
         return $this->hasMany(Calificacion::class);
     }
+
+    public function asistencias()
+    {
+        return $this->hasMany(Asistencia::class);
+    }
+
 }

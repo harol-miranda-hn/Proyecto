@@ -59,9 +59,20 @@
                                     {{ $registro->matricula?->alumno?->nombre_completo ?? 'N/D' }}
                                 </td>
                                 <td>
-                                    {{ $registro->matricula?->grado?->curso ?? 'N/D' }}
-                                    - {{ $registro->matricula?->grado?->seccion ?? '' }}
-                                    ({{ $registro->matricula?->grado?->jornada ?? '' }})
+                                    @php
+                                        $curso = $registro->matricula?->grado?->curso ?? 'N/D';
+                                        $modalidadOriginal = $registro->matricula?->grado?->modalidad ?? '';
+                                        $modalidad = match (true) {
+                                            str_contains($modalidadOriginal, 'Informática') => 'BTP en Informática',
+                                            str_contains($modalidadOriginal, 'Informática con orientación a robótica') => 'BTP en Robótica',
+                                            default => $modalidadOriginal,
+                                        };
+                                        $seccion = $registro->matricula?->grado?->seccion ?? '';
+                                        $jornada = $registro->matricula?->grado?->jornada ?? '';
+                                    @endphp
+
+                                    {{ $curso }} de {{ $modalidad }} <strong>'{{ $seccion }}'</strong> ({{ $jornada }})
+
                                 </td>
                                 <td>
                                     <span class="badge rounded-pill px-3 py-2 text-white"

@@ -159,8 +159,17 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         $project = Project::findOrFail($id);
+
+        // Verificar si el proyecto tiene comentarios
+        if ($project->comments()->exists()) {
+            return redirect()->route('projects.index')
+                ->with('error', 'No se puede eliminar el proyecto porque tiene comentarios asignados.');
+        }
+
         $project->delete();
 
-        return redirect()->route('projects.index')->with('status', 'Proyecto eliminado correctamente.');
+        return redirect()->route('projects.index')
+            ->with('status', 'Proyecto eliminado correctamente.');
     }
+
 }

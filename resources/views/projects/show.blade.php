@@ -1,55 +1,100 @@
-<x-app-layout>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-lg sm:rounded-lg">
-                <div class="p-6">
-                    <!-- Título de la Sección -->
-                    <div class="mb-6">
-                        <h3 class="text-2xl font-semibold text-gray-900 dark:text-gray-100">{{ __('Detalles del Proyecto') }}</h3>
-                        <p class="text-gray-600 dark:text-gray-300">{{ __('Información completa del proyecto seleccionado') }}</p>
-                        <hr>
+<x-guest-layout>
+    <div class="container py-4">
+        <!-- Encabezado -->
+        <div class="bg-info bg-gradient text-white rounded-3 p-3 mb-4 d-flex flex-wrap align-items-start gap-3">
+            <div class="rounded-circle bg-white bg-opacity-25 d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
+                <i class="fas fa-project-diagram fs-5"></i>
+            </div>
+            <div class="flex-grow-1">
+                <h2 class="h6 mb-1">Detalles del Proyecto</h2>
+                <p class="mb-0 small">Información completa del proyecto registrado</p>
+            </div>
+        </div>
+
+        <!-- Tarjeta de información -->
+        <div class="bg-white rounded-3 shadow-sm p-4">
+            <!-- Información General -->
+            <div class="mb-4">
+                <div class="d-flex align-items-center text-primary mb-3">
+                    <i class="fas fa-file-alt me-2"></i>
+                    <h5 class="mb-0">Información del Proyecto</h5>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <small class="text-muted">Nombre del Proyecto</small>
+                        <div class="fw-semibold text-dark">{{ $project->name }}</div>
                     </div>
-
-                    <!-- Información del Proyecto -->
-                    <div class="space-y-4">
-                        <!-- Nombre del Proyecto -->
-                        <div class="flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-4 rounded-md shadow-sm">
-                            <span class="text-lg font-medium text-gray-700 dark:text-gray-300">{{ __('Nombre del Proyecto') }}: <strong>{{ $project->name }}</strong></span>
-                        </div>
-
-                        <!-- Descripción del Proyecto -->
-                        <div class="flex flex-col bg-gray-100 dark:bg-gray-700 p-4 rounded-md shadow-sm">
-                            <span class="text-lg font-medium text-gray-700 dark:text-gray-300">{{ __('Descripción') }}:</span>
-                            <p class="mt-2 text-gray-700 dark:text-gray-300">{{ $project->description }}</p>
-                        </div>
-
-                        <!-- Estudiante -->
-                        <div class="flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-4 rounded-md shadow-sm">
-                            <span class="text-lg font-medium text-gray-700 dark:text-gray-300">{{ __('Estudiante') }}: <strong>{{ $project->student->name }} ({{ $project->student->email }})</strong></span>
-                        </div>
-
-                        <!-- Profesor -->
-                        <div class="flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-4 rounded-md shadow-sm">
-                            <span class="text-lg font-medium text-gray-700 dark:text-gray-300">{{ __('Profesor') }}: <strong>{{ $project->professor->name }} ({{ $project->professor->email }})</strong></span>
-                        </div>
-
-                        <!-- Estado del Proyecto -->
-                        <div class="flex items-center justify-between bg-gray-100 dark:bg-gray-700 p-4 rounded-md shadow-sm">
-                            <span class="text-lg font-medium text-gray-700 dark:text-gray-300">{{ __('Estado') }}: <strong><span class="px-3 py-1 rounded-full text-white
-                                                {{ $project->status == 'activo' ? 'bg-green-500' : 'bg-blue-950' }}">
-                                                {{ ucfirst($project->status) }}
-                                            </span></strong></span>
+                    <div class="col-md-6">
+                        <small class="text-muted">Estado</small>
+                        <div class="fw-semibold">
+                            <span class="badge rounded-pill text-bg-{{ $project->status === 'activo' ? 'success' : 'secondary' }}">
+                                {{ ucfirst($project->status) }}
+                            </span>
                         </div>
                     </div>
-
-                    <!-- Botón Volver -->
-                    <div class="mt-6 text-right">
-                        <a href="{{ route('projects.index') }}" class="bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500">
-                            {{ __('REGRESAR') }}
-                        </a>
+                    <div class="col-md-12">
+                        <small class="text-muted">Descripción</small>
+                        <div class="fw-semibold text-dark">{{ $project->description }}</div>
                     </div>
                 </div>
             </div>
+
+            <hr class="my-4">
+
+            <!-- Participantes -->
+            <div class="mb-4">
+                <div class="d-flex align-items-center text-primary mb-3">
+                    <i class="fas fa-users me-2"></i>
+                    <h5 class="mb-0">Participantes</h5>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <small class="text-muted">Estudiante</small>
+                        <div class="fw-semibold text-dark">{{ $project->student->name }} <span class="text-muted small">({{ $project->student->email }})</span></div>
+                    </div>
+                    <div class="col-md-6">
+                        <small class="text-muted">Profesor Asesor</small>
+                        <div class="fw-semibold text-dark">{{ $project->professor->name }} <span class="text-muted small">({{ $project->professor->email }})</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="my-4">
+
+            <!-- Fechas -->
+            <div>
+                <div class="d-flex align-items-center text-primary mb-3">
+                    <i class="fas fa-clock me-2"></i>
+                    <h5 class="mb-0">Tiempos de Registro</h5>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <small class="text-muted">Creado el</small>
+                        <div class="fw-semibold text-dark">
+                            {{ \Carbon\Carbon::parse($project->created_at)->locale('es')->translatedFormat('l d \d\e F, Y \a \l\a\s h:i A') }}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <small class="text-muted">Última Actualización</small>
+                        <div class="fw-semibold text-dark">
+                            {{ \Carbon\Carbon::parse($project->updated_at)->locale('es')->translatedFormat('l d \d\e F, Y \a \l\a\s h:i A') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Botones -->
+            <div class="mt-4 d-flex justify-content-end gap-2">
+                <a href="{{ route('projects.index') }}" class="btn btn-outline-secondary">
+                    <i class="fas fa-arrow-left me-1"></i> Volver
+                </a>
+                <a href="{{ route('projects.edit', $project->id) }}" class="btn btn-warning text-white">
+                    <i class="fas fa-edit me-1"></i> Editar
+                </a>
+            </div>
         </div>
     </div>
-</x-app-layout>
+</x-guest-layout>

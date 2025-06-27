@@ -29,26 +29,31 @@
                         <small class="text-muted">Correo Electrónico</small>
                         <div class="fw-semibold text-dark">{{ $alumno->email ?? 'No especificado' }}</div>
                     </div>
-                    <div class="col-md-3">
-                        <small class="text-muted">Identidad</small>
-                        <div class="fw-semibold text-dark">{{ $alumno->numero_identidad }}</div>
-                    </div>
-                    <div class="col-md-3">
-                        <small class="text-muted">Teléfono</small>
-                        <div class="fw-semibold text-dark">{{ $alumno->telefono }}</div>
-                    </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <small class="text-muted">Fecha de Nacimiento</small>
                         <div class="fw-semibold text-dark">
-                            {{ \Carbon\Carbon::parse($alumno->fecha_nacimiento)->format('d/m/Y') }}
+                            {{ \Carbon\Carbon::parse($alumno->fecha_nacimiento)->locale('es')->translatedFormat('l d \d\e F, Y') }}
                         </div>
                     </div>
-                    <div class="col-md-3">
+
+                    <div class="col-md-6">
                         <small class="text-muted">Género</small>
                         <div class="fw-semibold text-dark">
                             {{ $alumno->genero == 'M' ? 'Masculino' : 'Femenino' }}
                         </div>
                     </div>
+
+                    <div class="col-md-6">
+                        <small class="text-muted">Identidad</small>
+                        <div class="fw-semibold text-dark">{{ $alumno->numero_identidad }}</div>
+                    </div>
+
+                    <div class="col-md-3">
+                        <small class="text-muted">Teléfono</small>
+                        <div class="fw-semibold text-dark">{{ $alumno->telefono }}</div>
+                    </div>
+
+
                     <div class="col-12">
                         <small class="text-muted">Dirección</small>
                         <div class="fw-semibold text-dark">{{ $alumno->direccion ?? 'No especificada' }}</div>
@@ -88,16 +93,25 @@
                     <i class="fas fa-notes-medical me-2"></i>
                     <h5 class="mb-0">Información Adicional</h5>
                 </div>
-                <div class="row g-3">
-                    <div class="col-md-6">
-                        <small class="text-muted">Información de Salud</small>
-                        <div class="fw-semibold text-dark">{{ $alumno->descripcion_enfermedad ?? 'No especificada' }}</div>
+
+                @if (empty($alumno->descripcion_enfermedad) && empty($alumno->descripcion_observacion))
+                    <div class="text-muted fst-italic">No hay información de salud ni observaciones registradas.</div>
+                @else
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <small class="text-muted">Información de Salud</small>
+                            <div class="fw-semibold text-dark">
+                                {{ $alumno->descripcion_enfermedad ?? 'No especificada' }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <small class="text-muted">Observaciones</small>
+                            <div class="fw-semibold text-dark">
+                                {{ $alumno->descripcion_observacion ?? 'No especificadas' }}
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-md-6">
-                        <small class="text-muted">Observaciones</small>
-                        <div class="fw-semibold text-dark">{{ $alumno->descripcion_observacion ?? 'No especificadas' }}</div>
-                    </div>
-                </div>
+                @endif
             </div>
 
             <!-- Botones -->

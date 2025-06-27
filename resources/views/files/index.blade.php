@@ -55,9 +55,6 @@
                                     <a href="{{ route('files.download', $file->id) }}" class="btn btn-sm btn-outline-success" title="Descargar">
                                         <i class="fas fa-download"></i>
                                     </a>
-                                    <button class="btn btn-sm btn-outline-danger delete-btn" data-file-id="{{ $file->id }}" title="Eliminar archivo">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
                                 </div>
                             </div>
                         </div>

@@ -123,7 +123,7 @@
         }
 
         .logo-text {
-            font-size: 1.25rem;
+            font-size: 0.95rem;
             font-weight: 700;
             color: var(--primary);
         }
@@ -187,8 +187,9 @@
         }
 
         .hero-title {
-            font-size: 3.5rem;
+            font-size: 2.2rem;
             font-weight: 800;
+            margin-top: 1.5rem;
             margin-bottom: 1.5rem;
             background: linear-gradient(90deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
@@ -630,7 +631,7 @@
             }
 
             .hero-subtitle {
-                font-size: 1.25rem;
+                font-size: 1.1rem;
             }
 
             .hero-btns {
@@ -676,7 +677,7 @@
 <!-- Hero Section -->
 <section class="hero">
     <div class="hero-content">
-        <h1 class="hero-title">Gestión integral para la orientación estudiantil</h1>
+        <h1 class="hero-title">Control Estudiantil</h1>
         <p class="hero-subtitle">Optimiza el control de asistencia, seguimiento académico y reportes estudiantiles con nuestra plataforma todo en uno diseñada para instituciones educativas.</p>
 
         <div class="hero-image-container">
@@ -688,7 +689,7 @@
 
                 </div>
                 <div class="card-content">
-                    <h3 class="card-title">Asistencia en Tiempo Real</h3>
+                    <h3 class="card-title">Asistencia</h3>
                     <p class="card-description">Registro preciso de asistencia con tecnología innovadora.</p>
                 </div>
             </div>
@@ -722,55 +723,63 @@
 <!-- Features Section -->
 <section class="features">
     <h2 class="section-title">Características Principales</h2>
-    <p class="section-subtitle">Descubre cómo nuestra plataforma transforma la gestión estudiantil con herramientas diseñadas para optimizar procesos y mejorar resultados.</p>
+    <p class="section-subtitle">Nuestra plataforma facilita la gestión educativa con herramientas esenciales para una administración eficiente y segura.</p>
 
     <div class="features-grid">
         <div class="feature-card">
             <div class="feature-icon">
+                <i class="fas fa-layer-group"></i>
+            </div>
+            <h3 class="feature-title">Control de Grados</h3>
+            <p class="feature-description">Organiza y gestiona los diferentes niveles o grados escolares con facilidad, manteniendo una estructura académica clara.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-book"></i>
+            </div>
+            <h3 class="feature-title">Gestión de Asignaturas</h3>
+            <p class="feature-description">Administra asignaturas por grado, con opciones para definir docentes, horarios y contenidos académicos.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-user-graduate"></i>
+            </div>
+            <h3 class="feature-title">Control de Alumnos</h3>
+            <p class="feature-description">Registra y administra la información de los estudiantes de manera ordenada y segura.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
+                <i class="fas fa-clipboard-check"></i>
+            </div>
+            <h3 class="feature-title">Calificaciones</h3>
+            <p class="feature-description">Registra y consulta calificaciones de forma clara, con reportes por materia, periodo o alumno.</p>
+        </div>
+
+        <div class="feature-card">
+            <div class="feature-icon">
                 <i class="fas fa-user-clock"></i>
             </div>
-            <h3 class="feature-title">Control de Asistencia</h3>
-            <p class="feature-description">Registro preciso de asistencia con opciones para justificar faltas, gestionar retardos y generar reportes detallados por estudiante, grupo o periodo.</p>
+            <h3 class="feature-title">Asistencia</h3>
+            <p class="feature-description">Control de asistencia diario, con opciones para justificar inasistencias y generar reportes por grupo o alumno.</p>
         </div>
 
         <div class="feature-card">
             <div class="feature-icon">
-                <i class="fas fa-chart-line"></i>
+                <i class="fas fa-users-cog"></i>
             </div>
-            <h3 class="feature-title">Seguimiento Académico</h3>
-            <p class="feature-description">Monitorea el rendimiento académico de cada estudiante, identifica áreas de oportunidad y establece planes de mejora personalizados.</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon">
-                <i class="fas fa-file-alt"></i>
-            </div>
-            <h3 class="feature-title">Reportes Automatizados</h3>
-            <p class="feature-description">Genera reportes de asistencia, desempeño académico y comportamiento con formatos predefinidos o personalizados para diferentes stakeholders.</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon">
-                <i class="fas fa-comments"></i>
-            </div>
-            <h3 class="feature-title">Comunicación Efectiva</h3>
-            <p class="feature-description">Sistema integrado de comunicación con estudiantes, padres y personal docente para mantener a todos informados en tiempo real.</p>
+            <h3 class="feature-title">Gestión de Usuarios</h3>
+            <p class="feature-description">Crea y administra cuentas con distintos niveles de acceso para directivos, docentes y personal administrativo.</p>
         </div>
 
         <div class="feature-card">
             <div class="feature-icon">
                 <i class="fas fa-shield-alt"></i>
             </div>
-            <h3 class="feature-title">Seguridad de Datos</h3>
-            <p class="feature-description">Protección avanzada de datos estudiantiles con cifrado de extremo a extremo y controles de acceso basados en roles.</p>
-        </div>
-
-        <div class="feature-card">
-            <div class="feature-icon">
-                <i class="fas fa-mobile-alt"></i>
-            </div>
-            <h3 class="feature-title">Acceso Móvil</h3>
-            <p class="feature-description">Accede al sistema desde cualquier dispositivo con nuestra aplicación móvil optimizada para iOS y Android.</p>
+            <h3 class="feature-title">Plataforma Segura y Responsiva</h3>
+            <p class="feature-description">Diseñada con medidas de seguridad modernas y accesible desde cualquier dispositivo con diseño responsivo.</p>
         </div>
     </div>
 </section>
@@ -784,13 +793,8 @@
         </div>
 
         <div class="stat-item">
-            <div class="stat-number">10k+</div>
+            <div class="stat-number">300+</div>
             <div class="stat-label">Estudiantes beneficiados</div>
-        </div>
-
-        <div class="stat-item">
-            <div class="stat-number">200+</div>
-            <div class="stat-label">Instituciones educativas</div>
         </div>
 
         <div class="stat-item">
@@ -811,12 +815,22 @@
         <div class="footer-section">
             <h3>Contacto</h3>
             <ul class="footer-links">
-                <li><a href="#"><i class="fas fa-map-marker-alt"></i> Colonia Nueva Esperanza, Danlí.</a></li>
-                <li><a href="#"><i class="fas fa-phone"></i> (504) 9999 - 9999</a></li>
-                <li><a href="#"><i class="fas fa-envelope"></i> infor-itd@gmail.com</a></li>
-                <li><a href="#"><i class="fas fa-clock"></i> Lunes - Viernes: 08:00 AM - 05:00 PM</a></li>
+                <li>
+                    <a href="https://maps.app.goo.gl/rA9iZaknnP3y6LX99" target="_blank" rel="noopener">
+                        <i class="fas fa-map-marker-alt"></i> Colonia Nueva Esperanza, Danlí, El Paraíso
+                    </a>
+                </li>
+                <li>
+                    <a href="#"><i class="fas fa-clock"></i> Lunes - Viernes: 08:00 AM - 05:00 PM</a>
+                </li>
+                <li>
+                    <a href="https://www.facebook.com/p/Instituto-Tecnico-Danli-100057593133747/" target="_blank" rel="noopener">
+                        <i class="fab fa-facebook"></i> Instituto Técnico Danlí
+                    </a>
+                </li>
             </ul>
         </div>
+
     </div>
 
     <div class="copyright"><strong>&copy; 2025 Instituto Técnico Danlí. Todos los derechos reservados.</strong> v.0.0.1

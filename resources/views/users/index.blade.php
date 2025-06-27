@@ -59,6 +59,7 @@
                                                 'profesor' => 'primary',
                                                 'estudiante' => 'success',
                                                 'administrador' => 'danger',
+                                                'superadmin' => 'info',
                                                 default => 'secondary'
                                             };
                                         @endphp

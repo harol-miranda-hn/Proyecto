@@ -36,6 +36,11 @@ class Alumno extends Model
         return $this->hasMany(Calificacion::class);
     }
 
+    public function asistencias()
+    {
+        return $this->hasMany(AsistenciaAlumno::class);
+    }
+
     public function promedioPorAsignatura($asignaturaId, $gradoId)
     {
         $calificaciones = $this->calificaciones()
