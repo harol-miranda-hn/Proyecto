@@ -45,9 +45,9 @@ class AlumnoController extends Controller
             'nombre_completo'         => ['required', 'string', 'max:100'],
             'email'                   => ['nullable', 'email', 'max:100'],
             'telefono'                => ['required', 'digits:8', 'unique:alumnos,telefono'],
-            'fecha_nacimiento'        => ['required', 'date'],
+            'fecha_nacimiento' => ['required', 'date', 'after_or_equal:' . now()->subYears(60)->format('Y-m-d')],
             'genero'                  => ['required', 'in:M,F'],
-            'direccion'               => ['nullable', 'string', 'max:500'],
+            'direccion'               => ['required', 'string', 'max:500'],
             'descripcion_enfermedad'  => ['nullable', 'string', 'max:500'],
             'descripcion_observacion' => ['nullable', 'string', 'max:500'],
             'encargado_nombre'        => ['required', 'string', 'max:100'],
@@ -76,11 +76,13 @@ class AlumnoController extends Controller
             'descripcion_observacion.max' => 'La descripción de la observación no debe exceder 500 caracteres.',
 
             'direccion.max' => 'La dirección no debe exceder 500 caracteres.',
+            'direccion.required' => 'La dirección del alumno es obligatoria.',
 
             'email.email' => 'Ingrese un correo electrónico válido.',
             'email.max' => 'El correo electrónico no debe exceder 100 caracteres.',
 
             'fecha_nacimiento.required' => 'La fecha de nacimiento es obligatoria.',
+            'fecha_nacimiento.after_or_equal' => 'La persona no debe tener más de 60 años.',
 
             'genero.required' => 'El género es obligatorio.',
             'genero.in' => 'El género debe ser Masculino o Femenino.',
@@ -125,9 +127,9 @@ class AlumnoController extends Controller
             'nombre_completo'         => ['required', 'string', 'max:100'],
             'email'                   => ['nullable', 'email', 'max:100'],
             'telefono'                => ['required', 'digits:8', 'unique:alumnos,telefono,' . $alumno->id],
-            'fecha_nacimiento'        => ['required', 'date'],
+            'fecha_nacimiento' => ['required', 'date', 'after_or_equal:' . now()->subYears(60)->format('Y-m-d')],
             'genero'                  => ['required', 'in:M,F'],
-            'direccion'               => ['nullable', 'string', 'max:500'],
+            'direccion'               => ['required', 'string', 'max:500'],
             'descripcion_enfermedad'  => ['nullable', 'string', 'max:500'],
             'descripcion_observacion' => ['nullable', 'string', 'max:500'],
             'encargado_nombre'        => ['required', 'string', 'max:100'],
@@ -156,10 +158,12 @@ class AlumnoController extends Controller
             'descripcion_observacion.max' => 'La descripción de la observación no debe exceder 500 caracteres.',
 
             'direccion.max' => 'La dirección no debe exceder 500 caracteres.',
+            'direccion.required' => 'La dirección del alumno es obligatoria.',
 
             'email.email' => 'Ingrese un correo electrónico válido.',
             'email.max' => 'El correo electrónico no debe exceder 100 caracteres.',
 
+            'fecha_nacimiento.after_or_equal' => 'La persona no debe tener más de 60 años.',
             'fecha_nacimiento.required' => 'La fecha de nacimiento es obligatoria.',
 
             'genero.required' => 'El género es obligatorio.',

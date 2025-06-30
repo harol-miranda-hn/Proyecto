@@ -160,26 +160,6 @@
             toastList.forEach(toastEl => new bootstrap.Toast(toastEl, { delay: 5000 }).show());
         });
 
-        document.getElementById('formCalificaciones').addEventListener('submit', function (e) {
-            const rows = this.querySelectorAll('tr');
-            let valido = true;
-
-            rows.forEach(row => {
-                const inputs = Array.from(row.querySelectorAll('.parcial'));
-                const notas = inputs.filter(input => input.value.trim() !== '');
-                if (notas.length === 0) {
-                    valido = false;
-                    row.classList.add('table-danger');
-                } else {
-                    row.classList.remove('table-danger');
-                }
-            });
-
-            if (!valido) {
-                e.preventDefault();
-                mostrarMensaje("⚠️ Debes ingresar al menos una nota por asignatura.", "danger");
-            }
-        });
     </script>
 
     <div id="mensajeBadge" style="position: fixed; top: 20px; right: 20px; z-index: 1050;"></div>

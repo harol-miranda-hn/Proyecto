@@ -11,28 +11,28 @@ class UserSeeder extends Seeder
     {
         User::create([
             'name' => 'Administrador',
-            'email' => 'admin@admin.com',
+            'email' => 'admin@darknethn.com',
             'password' => bcrypt('password'),
             'role' => 'administrador',
         ]);
 
         User::create([
             'name' => 'Super Administrador',
-            'email' => 'superadmin@supeadmin.com',
+            'email' => 'superadmin@darknethn.com',
             'password' => bcrypt('password'),
             'role' => 'superadmin',
         ]);
 
         User::create([
-            'name' => 'Katherine Cálix',
-            'email' => 'katherinecalix@admin.com',
+            'name' => 'Lic. Katherine Cálix',
+            'email' => 'katherinecalix@darknethn.com',
             'password' => bcrypt('password'),
-            'role' => 'administrador',
+            'role' => 'superadmin',
         ]);
 
         User::create([
             'name' => 'Lic. Harol Miranda',
-            'email' => 'harolenocmiranda@gmail.com',
+            'email' => 'harolenocmiranda@darknethn.com',
             'password' => bcrypt('password'),
             'role' => 'superadmin',
         ]);

@@ -230,14 +230,14 @@ class CalificacionController extends Controller
             ]);
 
             $notasConvertidas = $valores->map(function ($val) {
-                if (is_string($val) && strtoupper($val) === 'NSP') return 0;
+                if (is_string($val) && strtoupper(trim($val)) === 'NSP') return 0;
                 if (is_numeric($val)) return (float) $val;
                 return null;
             });
 
             if ($notasConvertidas->filter(fn($n) => $n !== null)->isEmpty()) {
                 return back()->withErrors([
-                    "calificaciones.{$index}" => "⚠️ Debe ingresar al menos una nota válida (0-100 o 'NSP') por asignatura.",
+                    "calificaciones.{$index}" => "Debe ingresar al menos una nota válida (0-100 o 'NSP') por asignatura.",
                 ])->withInput();
             }
 
@@ -249,34 +249,23 @@ class CalificacionController extends Controller
                 }
             }
 
-            $calificacion = Calificacion::where('matricula_id', $matriculaId)
-                ->where('asignatura_id', $item['asignatura_id'])
-                ->first();
-
-            if ($calificacion) {
-                $calificacion->update([
-                    'parcial_1' => $notasConvertidas[0],
-                    'parcial_2' => $notasConvertidas[1],
-                    'parcial_3' => $notasConvertidas[2],
-                    'parcial_4' => $notasConvertidas[3],
-                ]);
-            } else {
-                // Si quieres permitir creación si no existe:
-                Calificacion::create([
+            Calificacion::updateOrCreate(
+                [
                     'matricula_id' => $matriculaId,
                     'asignatura_id' => $item['asignatura_id'],
+                ],
+                [
                     'parcial_1' => $notasConvertidas[0],
                     'parcial_2' => $notasConvertidas[1],
                     'parcial_3' => $notasConvertidas[2],
                     'parcial_4' => $notasConvertidas[3],
-                ]);
-            }
+                ]
+            );
         }
 
         return redirect()->route('calificaciones.index')
             ->with('status', 'Calificaciones actualizadas correctamente.');
     }
-
 
     /**
      * Remove the specified resource from storage.
