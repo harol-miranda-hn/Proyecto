@@ -93,7 +93,7 @@ class AlumnoController extends Controller
 
         Alumno::create($validated);
 
-        return redirect()->route('alumnos.index')->with('status', 'Alumno registrado exitosamente.');
+        return redirect()->route('alumnos.index')->with('status', 'El alumno ha sido registrado exitosamente.');
     }
 
 
